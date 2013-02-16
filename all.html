@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="mindon/at/gmail.com" site="http://mindon.github.com/">
+    <title>
+All Local Portals  - Mindon.IDEA
+    </title>
+
+    <style type="text/css">
+html, body {
+  font-family: tahoma, arial, sans-serif;
+  height: 100%;
+  margin: 0; padding: 0
+}
+#mindon_ingr_map { height: 100% }
+
+.portal {
+  overflow: hidden;
+  width: 360px;
+  height: 180px;
+}
+ul {
+  overflow: hidden;
+  list-style: none;
+  margin:0;
+  padding: 0;
+}
+li {
+  margin:0;
+  padding: 0;
+}
+
+.name {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.status {
+  position: relative;
+  width: 64px;
+  height: 109px;
+  margin: 0 28px;
+  display: -webkit-box;
+  -webkit-box-align: baseline;
+  overflow: hidden;
+}
+
+.stback {
+  width: 64px;
+  height: 109px;
+  opacity: 0.2;
+  position:absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  display: -webkit-box;
+  -webkit-box-align: baseline;
+  overflow:hidden;
+  background: transparent url(status.png) no-repeat 0 0;
+}
+
+.level, .energy, .links, .mods {
+  background: transparent url(status.png) no-repeat;
+  width: 15px;
+  margin-right: 1px;
+}
+
+.a-locate, .a-scene, .a-status {
+  float: left;
+  padding: 4px;
+  height: 160px;
+}
+
+.a-locate {
+  width: 100px;
+  text-align: center;
+}
+.a-scene {
+  width: 120px;
+  background: transparent url('48.png') no-repeat center center;
+}
+
+.scene {
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 160px;
+  cursor: pointer;
+}
+
+.a-addr {
+  width: 100px;
+  height: 160px;
+  font-size:9pt;
+  padding-top: 6px;
+  float: right;
+  margin-right: 8px;
+}
+
+.iALIENS .name {
+  color: rgb(0, 53, 0);
+}
+
+.iRESISTANCE .name {
+  color: rgb(3, 25, 48);
+}
+
+.iNEUTRAL .name {
+  color: rgb(22, 18, 16);
+}
+.resonators {
+  height: 2em;
+  margin-bottom: 8px;
+}
+
+#mylevels {
+  border-radius: 6px 6px 0 0;
+  background-color: #ccc;
+  opacity: 0.5;
+  line-height: 30px;
+  position: fixed;
+  bottom: 0;
+  right: 6px;
+}
+#mylevels a {
+  display: inline-block;
+  padding: 0 6px;
+  cursor: pointer;
+  background-image: url(vs.png);
+  background-position: 2px -60px;
+  background-repeat:  no-repeat;
+}
+
+#mylevels a:hover {
+  background-color: #666;
+  color: #fff;
+}
+
+.at {
+  background-color: #c00;
+  color: #fff;
+}
+    </style>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkDrtTsNyDpBPojKoyp6XxeHFUkp1H4OM&sensor=true"></script>
+</head>
+
+ <body>
+<div id="mindon_ingr_map" style="width:100%; height:100%">loading google map...</div>
+<textarea id="tmpl_view" style="display:none">
+<div class="portal i<%= team %>">
+<div class="name"><%= name %></div>
+  <ul>
+    <li class="a-locate">
+
+<div class="resonators" title="Resonators"><%= resonators %></div>
+<div class="status">
+  <div class="stback"></div>
+  <div class="level" style="height:<%= level %>px;background-position:0 -<%= levelV %>px" title="Level"></div>
+  <div class="energy" style="height:<%= energy %>px;background-position:-16px -<%= energyV %>px" title="Energy"></div>
+  <div class="links" style="height:<%= links %>px;background-position:-32px -<%= linksV %>px" title="Links"></div>
+  <div class="mods" style="height:<%= mods %>px;background-position:-48px -<%= modsV %>px" title="Mods"></div>
+  <div style="height:109px;font-size:1px;width:1px;"></div>
+</div>
+    </li>
+    <li class="a-scene">
+<div class="scene" style="background-image:url(<%= imageUrl %>)"></div>
+    </li>
+    <li class="a-addr">
+<%= addr %>
+    </li>
+  </ul>
+</div>
+</textarea>
+<div id="retry" style="display:none;text-align:center">
+<h2>Sorry, Google Map API 2.5K free Daily Quota Runs out</h2>
+<p>Use My Google Map API Key<br /><input type="text" id="mykey" size="36" placeholder="Your Google Map API Key"/><input type="button" value="Retry" id="mytry" /></p>
+</div>
+<div id="mylevels"><a id='lall' onclick="show('*')" class="at">All</a><a id='l0' onclick="show(0)">0</a><a id='l1' onclick="show(1)">1</a><a id='l2' onclick="show(2)">2</a>
+<a id='l3' onclick="show(3)">3</a><a id='l4' onclick="show(4)">4</a><a id='l5' onclick="show(5)">5</a>
+<a id='l6' onclick="show(6)">6</a><a id='l7' onclick="show(7)">7</a><a id='l8' onclick="show(8)">8</a></div>
+<script type="text/javascript">
+var ingr
+  , lat = 22.528176
+  , lng = 113.928448
+  , pack
+  , markers = {}
+  , infos = {}
+  , level = '*';
+
+var lvi = {};
+
+function _ob(id){return document.getElementById(id);}
+
+function show( lv ) {
+  if( lv != level ) {
+    var tm;
+    if( level == '*' ) {
+      for(var k in markers ) {
+        if( k != lv )
+          markers[k].forEach(function(d){
+            d.setMap(null);
+          });
+      }
+    } else {
+      if( markers[level] && lv != '*' ) {
+        markers[level].forEach(function(d){
+          d.setMap(null);
+        });
+      }
+      if( lv != '*' && markers[lv] ) {
+        markers[lv].forEach(function(d){
+          if(!tm)
+            tm = d;
+          d.setMap(ingr);
+        });
+      } else if( lv == '*' ) {
+        for( var k in markers ) {
+          markers[k].forEach(function(d){
+            if(!tm)
+              tm = d;
+            d.setMap(ingr);
+          });
+        }
+      }
+    }
+    _ob('l' +(level == '*'?'all':level)).className = '';
+    level = lv;
+    _ob('l' +(level == '*'?'all':level)).className = 'at';
+    if( tm &&  tm.position ) 
+      ingr.setCenter( tm.position );
+
+  } 
+}
+
+var vs = {}, infa;
+function process( pack ) {
+  if( !window.google || !ingr ) {
+    return false;
+  }
+  var d = pack.center.split(',');
+  if( !isNaN(d[0]) && !isNaN(d[1])) {
+    lat = parseFloat( d[0] );
+    lng = parseFloat( d[1] );
+  }
+
+  ingr.setCenter( new google.maps.LatLng(lat, lng) );
+
+  d = pack.portals;
+  var t = _ob('tmpl_view').value;
+  d && d.forEach(function(v) {
+    var l = {};
+    l.resonators = v.resonators.join('') || '-';
+    l.level = (v.level +1) * 11;
+    l.energy = Math.ceil( v.energyLevel * 0.98 ) +11;
+    if( v.energy > 109 )
+      v.energy = 109;
+
+    l.links = (v.links +1) * 11;
+    l.mods = (v.mods +1) * 11;
+
+    l.levelV = 109 - l.level;
+    l.energyV = 109 - l.energy;
+    l.linksV = 109 - l.links;
+    l.modsV = 109 - l.mods;
+
+    l.team = v.team;
+    l.imageUrl = v.imageUrl;
+
+    if( !vs[v.level] ) {
+      vs[v.level] = {};
+    }
+    vs[v.level][v.team] = (vs[v.level][v.team] || 0) +1;
+
+    var html = t;
+    for(var k in l) {
+      html = html.replace('<%= ' + k +' %>', l[k]);
+    }
+    html = html.replace('<%= name %>', v.name).replace('<%= addr %>', v.addr);
+
+    var myLatlng = new google.maps.LatLng(v.lat, v.lng);
+    var tn = l.team ? l.team.substr(0,1).toLowerCase() : 'n'
+      , ico;
+    if( tn == 'n' || !lvi[tn] || lvi[tn] === false || !lvi[tn][parseInt(v.level)] ) {
+      ico = new google.maps.MarkerImage(lvi[tn] ? tn +'.png' : 'n.png');
+    } else {
+      ico = lvi[tn][parseInt(v.level)];
+    }
+    var marker = new google.maps.Marker({
+        position: myLatlng,
+        map: ingr,
+        title: v.name,
+        icon: ico
+    });
+    ico = null;
+
+    if( !markers[v.level] ) {
+      markers[v.level] = [];
+    }
+    markers[v.level].push( marker );
+
+    var infowindow = new google.maps.InfoWindow({
+        content: html
+    });
+
+    if( !infos[v.level] ) {
+      infos[v.level] = [];
+    }
+    infos[v.level].push( infowindow );
+
+    google.maps.event.addListener(marker, 'click', function() {
+      if( infa )
+        infa.close();
+      infowindow.open(ingr, marker);
+      infa = infowindow;
+    });
+  });
+
+  for(var k in vs) {
+    if( k != '0' ) {
+      var n = -15;
+      if(!vs[k]['ALIENS']) {
+        n = !vs[k]['RESISTANCE'] ? -60 : -30;
+      } else if(!vs[k]['RESISTANCE']) {
+        n = 0;
+      } else {
+        n = -30 + Math.round(30*vs[k]['ALIENS']/(vs[k]['ALIENS'] + vs[k]['RESISTANCE']));
+      }
+      var lob = _ob('l'+k+'');
+      if(lob) lob.style.backgroundPositionY = n +'px';
+      lob = null;
+    }
+  }
+
+  show( pack.level || 0 );
+}
+
+window.addEventListener('message', function(event){
+  if( !ingr || !window.google || !window.google.maps ) {
+    if( event.data && event.data.center && event.data.portals ) {
+      pack = event.data;
+      if( pack.lvi ) {
+        lvi = pack.lvi;
+        delete pack.lvi;
+      }
+    }
+    event.source.postMessage('map-failed', '*');
+    return false;
+  }
+  if( event.data && event.data.center && event.data.portals ) {
+    if( event.data.lvi ) {
+      lvi = event.data.lvi;
+      delete event.data.lvi;
+    }
+    process( event.data );
+  }
+});
+
+function initialize() {
+   if( !window.google || !window.google.maps ) {
+     _ob('mindon_ingr_map').appendChild( _ob('retry') );
+     _ob('retry').style.display = '';
+     return false;
+   }
+   try{
+   var mapOptions = {
+     center: new google.maps.LatLng(lat, lng),
+     zoom: 12,
+     mapTypeId: google.maps.MapTypeId.HYBRID
+   };
+   ingr = new google.maps.Map(_ob("mindon_ingr_map"),
+       mapOptions);
+   } catch(e){
+     _ob('mindon_ingr_map').appendChild( _ob('retry') );
+     _ob('retry').style.display = '';
+   }
+}
+
+initialize();
+
+_ob('mytry').onclick = function(){
+  if( !/\s*[a-z0-9]+\s*/i.test( _ob('mykey').value ) ) {
+    _ob('mykey').focus();
+    return;
+  }
+  var job = document.createElement('script');
+  job.onload = function(){
+    if( window.google && window.google.maps ) {
+      initialize();
+      pack && process( pack );
+      if( ingr ) pack = null;
+    }
+  };
+  job.src = 'https://maps.googleapis.com/maps/api/js?key='+_ob('mykey').value+'&sensor=true';
+  document.body.appendChild( job );
+  job = null;
+};
+
+</script>
+ </body>
+</html>

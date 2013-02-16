@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="author" content="mindon/at/gmail.com" site="http://mindon.github.com/">
+    <title>
+Ingress Portals Finder  - Mindon.IDEA
+    </title>
+
+    <style type="text/css">
+@font-face {
+    font-family: coda_regular;
+  src: url(fonts/coda_regular.ttf);
+}
+html, body {
+  font-family: coda_regular, sans-serif;
+  background-color:#222;
+  color: #fff;
+  font-size: 11pt;
+  line-height: 1.6em;
+}
+
+input {
+  font-family: coda_regular, sans-serif;
+  font-size: 1.0em;
+  border: none;
+  line-height: 1.6em;
+  text-align:center;
+}
+
+.status {
+  position: relative;
+  width: 64px;
+  height: 109px;
+  display: -webkit-box;
+  -webkit-box-align: baseline;
+  margin: 0 29px;
+  overflow: hidden;
+}
+
+.stback {
+  width: 64px;
+  height: 109px;
+  opacity: 0.2;
+  position:absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  display: -webkit-box;
+  -webkit-box-align: baseline;
+  overflow:hidden;
+  background: transparent url(status.png) no-repeat 0 0;
+}
+
+.level, .energy, .links, .mods {
+  background: transparent url(status.png) no-repeat;
+  width: 15px;
+  margin-right: 1px;
+}
+/* control */
+#myair label.caption {
+  width: 80px;
+  text-align: right;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+#myair ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#myair li {
+  margin-bottom: 8px;
+  position:relative;
+}
+
+#mymin, #mymax, #mykey {
+  background-color:#333;
+  color: #6699ff;
+}
+
+a {
+  color: #3399ee;
+}
+
+#mymin, #mymax {
+  height: 2em;
+  border-radius: 4px;
+}
+
+#mykey {
+  margin-right: 0;
+  border-right: 1px solid #222;
+  border-radius: 4px 0 0 4px;
+}
+
+#myteam {
+  display: inline-block;
+  background-color:#333;
+  padding: 0 8px;
+  border: 1px solid #333;
+  border-radius: 0 4px 4px 0;
+}
+
+label.enlightened {
+  color: #66ff66;
+}
+label.resistance {
+  color: #6699ff;
+}
+label.neutral {
+  color: #cc6600;
+}
+
+#mylevels a {
+  display: inline-block;
+  font-size: 13pt;
+  line-height: 30px;
+  width: 46px;
+  text-align: center;
+  background-color: rgb(124, 124, 93);
+  color: #000;
+  border-radius: 4px 4px 0 0;
+  margin-right: 6px;
+  cursor: pointer;
+  position: relative;
+}
+#mylevels a:hover {
+  background-color: #ff0;
+  color: #f00;
+}
+
+#mylevels a.active {
+  background-color: #cc0;
+  color: #f00;
+}
+
+#mylevels a u {
+  position: absolute;
+  font-size: 7pt;
+  line-height: 1.0em;
+  bottom: 2px;
+  right: 2px;
+  text-decoration: none;
+  color: #000;
+}
+
+#mysubmit {
+  width: 100px;
+  height: 2em;
+  background-color: #6699ff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#mysubmit:hover {
+  background-color: #3300ff;
+  color: #33ffff;
+}
+
+h1 {
+  text-align: center;
+  cursor: default;
+}
+
+#myair {
+  width: 600px;
+  margin: 0 auto;
+}
+
+#mindon {
+  position: fixed;
+  top: 2px;
+  right: 6px;
+  color:#555;
+  font-size: 9pt;
+  text-decoration: none;
+}
+#mindon:hover {
+  color:#00ccff;
+}
+
+#mystage {
+  border-top: 1px solid #cccc00;
+  padding: 1em 0;
+}
+
+.result td {
+  padding: 2px 6px;
+}
+
+.portal ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+}
+
+.portal {
+  border: 1px solid #600;
+  border-radius: 8px;
+  margin: 6px 8px 12px 8px;
+  float: left;
+  padding: 12px 8px;
+  width: 300px;
+  overflow: hidden;
+}
+
+.notify {
+  margin: 3em auto;
+  text-align: center;
+}
+
+.map, .ingr {
+  background: transparent url(status.png) no-repeat;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+}
+.map {
+  background-position: -70px -50px; 
+}
+.ingr {
+  background-position: -70px 0; 
+}
+
+.a-locate, .a-scene, .a-status {
+  float: left;
+  padding: 4px;
+  height: 200px;
+}
+
+.a-locate {
+  width: 120px;
+  text-align: center;
+}
+.a-scene {
+  width: 150px;
+  border: 2px solid #666;
+  background: transparent none no-repeat center center;
+}
+
+.scene {
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 200px;
+  cursor: pointer;
+}
+
+.a-addr {
+  float: none;
+  display: block;
+  clear: both;
+  font-family: tahoma,arial,sans-serif;
+  font-size:9pt;
+  color: #ccc;
+  padding-top: 6px;
+}
+
+.addr {
+  height: 50px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-overflow: ellipsis;
+}
+
+.name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.iALIENS {
+  border-color: #99ff00;
+  background-color: rgb(0, 53, 0);
+}
+
+.iALIENS .a-scene {
+  background-image: url('aliens.png');
+}
+
+.iRESISTANCE {
+  border-color: #00ccff;
+  background-color: rgb(3, 25, 48);
+}
+.iRESISTANCE .a-scene {
+  background-image: url('resistance.png');
+}
+
+.iNEUTRAL {
+  border-color: #ccc;
+  background-color: rgb(22, 18, 16);
+}
+.iNEUTRAL .a-scene {
+  background-image: url('neutral.png');
+}
+
+.portal:hover {
+  border-color: #f00;
+}
+
+.hightlight {
+  display: inline-block;
+  border-radius: 2px;
+  background-color: #ff0;
+  color: #f00;
+  padding: 0 6px;
+}
+
+ ::-webkit-input-placeholder {
+  color: #666;
+  font-size: 8pt;
+ }
+
+.LevelBar {
+  clear: both;
+  border-top: 32px solid #222;
+  margin-bottom: 4px;
+  background-color: rgb(85, 26, 3);
+  display: block;
+  text-align: center;
+  position: relative;
+}
+
+.LevelBar b {
+  font-size: 1.2em;
+  color: #ff0;
+}
+
+.stat {
+  position: absolute;
+  top: 0;
+  right: 76px;
+}
+.export, .export-csv {
+  position: absolute;
+  top: 0;
+  right: 36px;
+  font-size: 8pt;
+  color: #000;
+  cursor: pointer;
+}
+.export-csv {
+  right: 4px;
+}
+.export:hover, .export-csv:hover {
+  color: #f00;
+}
+.total {position:absolute;right:0;bottom:4px;line-height:1em;font-size:8pt;}
+
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-button {
+  background-color: #ccc;
+  border: 1px solid #94AAD0;
+}
+::-webkit-scrollbar-button:hover, ::-webkit-scrollbar-thumb:hover {
+  background-color: #D9DAF6;
+}
+::-webkit-scrollbar-button:active, ::-webkit-scrollbar-thumb:active {
+  background-color: #AEC6EC;
+}
+::-webkit-scrollbar-track {
+  background-color: #666;
+}
+::-webkit-scrollbar-track:hover {
+  background-color: #888;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border: 1px solid #94AAD0;
+  border-radius: 3px;
+}
+
+.addr::-webkit-scrollbar {
+  width: 8px;
+}
+.addr::-webkit-scrollbar-button {
+  display: none;
+}
+
+.resonators {
+  height: 2em;
+  margin-bottom: 8px;
+}
+
+.note {font-size:8pt;position:absolute;left:8px;opacity:0.5}
+.note div {display:inline-block;}
+#allev {color:#3399ee;}
+#myall { opacity: 0.2;}
+
+#mapkey {
+  text-align: center;
+  margin: 1em auto 0;
+}
+
+#mylevels a {
+  background-image: url(vs.png);
+  background-position: 4px -60px;
+  background-repeat:  no-repeat;
+}
+
+#mycurr {color:#cc0;}
+
+#myexport {
+  position: absolute;
+  background-color: #000;
+  color: #f00;
+  border-radius: 6px;
+  padding: 8px 16px;
+  z-index: 99;
+}
+#myexport a {
+  text-decoration: underline;
+  cursor: pointer;
+}
+#myexport a:hover {
+  color: #ff0;
+}
+#mydonate {
+  color: #555;
+  font-size: 10pt;
+  cursor:pointer;
+  margin-left: 2em;
+}
+    </style>
+  </head>
+<body>
+<h1 id="about">Ingress Portals Finder</h1>
+<a id="mindon" href="http://mindon.github.com" target="_blank">Mindon.IDEA</a>
+<div id="myair">
+  <ul>
+<li><label class="caption"><a id="places" title="Get from Google Maps">[..]</a> Area </label><input type="text" id="mymin" value="22.370051,112.650632" /> ~ <input type="text" id="mymax" value="23.311906,114.340553" /> <input type="button" value=" Query " id="mysubmit" /></li>
+<li><label class="caption">Keyword: </label><input type="text" id="mykey" value="" title="Inpute keywords separated by ," placeholder="City: Shenzhen, Hong Kong, ..." /><div id="myteam"><input type="checkbox" checked="checked" id="enlightened"><label for="enlightened" class="enlightened">Enlightened</label>  <input type="checkbox" checked="checked" id="resistance"><label for="resistance" class="resistance">Resistance</label> <input type="checkbox" checked="checked" id="neutral"><label for="neutral" class="neutral">Neutral</label></div></li>
+<li style="margin:0"><div class="total"> = <span id="mycurr">0</span><span style="color:#999"> / </span><span id="mytotal">0</span></div><div id="mylevels" title="CTRL/Command + Click to select Multi-Levels"><label class="caption"><span id="allev" title="Select All">[a]</span> Level: </label><a lv="0">0<u>0</u></a><a lv="1">1<u>0</u></a><a lv="2">2<u>0</u></a><a lv="3">3<u>0</u></a><a lv="4">4<u>0</u></a><a lv="5">5<u>0</u></a><a lv="6">6<u>0</u></a><a lv="7">7<u>0</u></a><a lv="8">8<u>0</u></a></div></li>
+  </ul>
+</div>
+<div id="mystage">
+<p align="center">Fill the bounds of your area, and click "Query"!<br /><br />Enjoy :-) <a id="mydonate">DONATE</a></p>
+</div>
+<div id="mapkey" style="display:none"><h3 style="color:red">Google Map API 25k free Daily Quota Runs out</h3>Use My Google Map API Key<br /><input type="text" id="mymapkey" size="20" placeholder="Your Google Map API Key"/><input type="button" value="Retry" id="mytry" /></div>
+
+<div align="center" style="clear:both;"><p style="width:420px;line-height:48px"><img src="48.png" align="left">by <b>Mindon</b> from <a href="http://mindon.github.com" target="_blank">Mindon.IDEA</a>. &nbsp; <span style="opacity:0.3">Thanks <a href="http://http://blog.shawtim.com/" target="_blank" title="for his Ingress: HK Portal List Extension">ShawTim</a></span></p></div>
+<textarea id="tmpl_view" style="display:none">
+    <% for (i = 0; i < list.length; i ++) { %>
+<%= list[i].LevelBar || '' %>
+<div class="portal i<%= list[i].team %>">
+  <ul>
+    <li class="a-locate">
+<div class="name"><%= list[i].name %></div>
+
+<div class="point">
+<a class="map" target="_blank" href="http://maps.google.com/maps?q=<%= list[i].nameV %>@<%= list[i].lat %>,<%= list[i].lng %>" level="<%= list[i].level %>" team="<%= list[i].team %>"></a>
+<a class="ingr" target="_blank" href="http://www.ingress.com/intel?latE6=<%= list[i].latE6 %>&lngE6=<%= list[i].lngE6 %>&z=17"></a>
+</div>
+<div class="resonators" title="Resonators"><%= list[i].resonators.join('')||'-' %></div>
+<div class="status">
+  <div class="stback"></div>
+  <div class="level" style="height:<%= list[i].levelV %>px;background-position:0 -<%= 109-list[i].levelV %>px" title="Level"></div>
+  <div class="energy" style="height:<%= list[i].energyV %>px;background-position:-16px -<%= 109-list[i].energyV %>px" title="Energy"></div>
+  <div class="links" style="height:<%= list[i].linksV %>px;background-position:-32px -<%= 109-list[i].linksV %>px" title="Links"></div>
+  <div class="mods" style="height:<%= list[i].modsV %>px;background-position:-48px -<%= 109-list[i].modsV %>px" title="Mods"></div>
+  <div style="height:109px;font-size:1px;width:1px;"></div>
+</div>
+    </li>
+    <li class="a-scene">
+<div class="scene" style="background-image:url(<%= list[i].imageUrl %>)" u="<%= list[i].imageUrl %>"></div>
+    </li>
+    <li class="a-addr">
+<div class="addr"><%= list[i].addrV %></div>
+    </li>
+  </ul>
+</div>
+    <% } %>
+</textarea>
+<iframe src="tmpl.html" style="display:none;width:1px;height:1px" frameBorder="0"></iframe>
+<script src="jquery.js"></script>
+<script src="view.js"></script>
+<style>
+#mymap {
+  position: fixed;
+  top: 100px;
+  left: 60px;
+  width: 600px;
+  height: 376px;
+  border: 6px solid #ccc;
+  background-color: #222;
+  border-radius: 8px;
+}
+#mapbar {
+  background: #222;
+  line-height: 1.8em;
+  height: 30px;
+  overflow: hidden;
+}
+#myoff {
+  color: #fff;
+  float: right;
+  width: 2em;
+  text-align: center;
+  margin-right: 8px;
+  display: block;
+  cursor: pointer;
+}
+#myoff:hover {
+  color: #ff0;
+  background-color: #f00;
+}
+#mapfr {
+  height: 340px;
+  width: 100%;
+}
+
+#mybounds, #bigmap,#myall {
+  display: block;
+  width: 200px;
+  border-radius: 6px;
+  background-color: #6699ff;
+  color: #222;
+  cursor: pointer;
+  margin: 0 auto;
+  text-align: center;
+  text-decoration: none;
+}
+
+#myall {
+  width: 40px;
+  margin-left: 6px;
+  position: absolute;
+  bottom: 5px;
+}
+
+#mybounds:hover, #bigmap:hover,#myall:hover {
+  background-color: #f00;
+  color: #fff;
+}
+#myrange {
+  position: absolute;
+  width: 323px;
+  height: 102px;
+  top: 70px;
+  left: 196px;
+  background: transparent url(max.png) no-repeat 0 0;
+}
+</style>
+<div id="myexport" style="display:none"><a target="_blank" title="Export only current level">Level <b>0</b></a> &nbsp; | &nbsp; <a target="_blank" title="Export all levels matched">All</a> <input type="checkbox" id="withimage" checked title="With portal photo"/></div>
+<div id="myrange" style="display:none"></div>
+<div id="mymap" style="display:none"><iframe id="mapfr" frameBorder="0"></iframe><div id="mapbar"><a id="myoff">×</a><a id="mybounds">Get Bounds</a><a id="bigmap" target="_blank" style="display:none">View Map Alone</a><a id="myall" style="display:none">All</a></div></div>
+<style>
+.spinning {
+  width: 100px;
+  margin: 2em auto 0;
+}
+.ball {
+	background-color: rgba(0,0,0,0);
+	border:5px solid rgba(0,183,0,0.9);
+	opacity:.9;
+	border-top:5px solid rgba(0,0,0,0);
+	border-left:5px solid rgba(0,0,0,0);
+	border-radius:50px;
+	box-shadow: 0 0 35px #2187e7;
+	width:50px;
+	height:50px;
+	margin:0 auto;
+	-webkit-animation:spin .5s infinite linear;
+}
+.ball1 {
+	background-color: rgba(0,0,0,0);
+	border:5px solid rgba(0,183,229,0.9);
+	opacity:.9;
+	border-top:5px solid rgba(0,0,0,0);
+	border-left:5px solid rgba(0,0,0,0);
+	border-radius:50px;
+	box-shadow: 0 0 15px #2187e7; 
+	width:30px;
+	height:30px;
+	margin:0 auto;
+	position:relative;
+	top:-50px;
+	-webkit-animation:spinoff .5s infinite linear;
+}
+@-webkit-keyframes spin {
+	0% { -webkit-transform:rotate(0deg); }
+	100% { -webkit-transform:rotate(360deg); }
+}
+@-webkit-keyframes spinoff {
+	0% { -webkit-transform:rotate(0deg); }
+	100% { -webkit-transform:rotate(-360deg); }
+}
+</style>
+<form id="fmdonate" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="display:none">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="HCJSW6U8PUNEJ">
+</form>
+<script src="kml.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="author" content="mindon/at/gmail.com" site="http://mindon.github.com/" />
+    <title>
+Ingress Map - Mindon.IDEA
+    </title>
+
+    <style type="text/css">
+@font-face {
+    font-family: coda_regular;
+  src: url(fonts/coda_regular.ttf);
+}
+html, body {
+  font-family: coda_regular, sans-serif;
+  height: 100%;
+  margin: 0; padding: 0
+}
+#mindon_ingr_map { height: 100% }
+
+#myquery {padding: 4px 12px;background-color: rgb(102, 175, 255);border-radius: 4px;width:145px;opacity:0.6;position:fixed;top:2px;left:228px;}
+#myquery input {border:1px solid #666;}
+#mycity {width: 120px;border-radius:3px 0 0 3px; border-right:none;}
+#mysearch {border-radius: 0 3px 3px 0; margin:0;background:#333;color:#fff;}
+#mysearch:hover {background:#600;}
+#myerr {color:#fff;text-align:center;font-size:9px}
+
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkDrtTsNyDpBPojKoyp6XxeHFUkp1H4OM&sensor=true"></script>
+    <script src="map.js"></script>
+  </head>
+  <body onload="initialize()">
+<div id="mindon_ingr_map" style="width:100%; height:100%"></div>
+<div id="myquery" style="display:none"><div id="myerr"></div><input type="text" id="mycity" placeholder="Place Keyword"/><input id="mysearch" type="button" value=">" /></div>
+  </body>
+</html>
