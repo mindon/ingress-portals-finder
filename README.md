@@ -8,8 +8,29 @@ Usage Details
 ----------------------
 <http://mindon.github.com/blog/2013/01/26/incredible-ingress-portals-finder-a-chrome-extension-for-the-game/>
 
+There's the link for the latest build CRX file.
+
 
 **Easy Usage**: 1) Set Bounds; 2) Click Query; 3) Filter by Tag, Team or Level.
+
+
+Features
+----------------------
+-   Set Bounds more easily - Search place by name
+
+-   Filtering by name/address keyword, team or level
+
+-   Locate portal in google map or ingress intel map
+
+-   Level, Enery, Links and Mods status bar
+
+-   Portal photo (click to view in full mode)
+
+-   Sort by Energy/Links/Mods
+
+-   Export selected level or all levels to KML/CSV
+
+-   Team vs. status by level in the bounds
 
 
 Note
@@ -33,3 +54,7 @@ CRX FILE MANUAL INSTALL STEPS
 2.   open chrome://extensions/
 
 3.   Drag and drop the CRX file in the window…
+
+
+
+Please keep the about information in your copy, thanks.
