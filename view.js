@@ -239,7 +239,7 @@ function filter( results ) {
           , same = t.length ? t.indexOf(l.team) > -1 : false;
 
         if( valid && matched && same ) {
-          l.nameV = l.name;
+          l.nameV = (l.name||'').replace(/\"/g, '&quot;');
           // preapre data for view template
           l.levelV = (l.level +1) * 11;
           l.energyV = Math.ceil( l.energyLevel * 0.98 ) +11;
@@ -248,7 +248,7 @@ function filter( results ) {
 
           l.linksV = (l.links +1) * 11;
           l.modsV = (l.mods +1) * 11;
-          l.addrV = krxp ? l.addr.replace(krxp, '<b class="hightlight">$1</b>') : l.addr;
+          l.addrV = krxp ? (l.addr||'').replace(/</g, '&lt;').replace(krxp, '<b class="hightlight">$1</b>') : (l.addr||'').replace(/</g, '&lt;');
 
           if( LevelBar ) {
             l.LevelBar = LevelBar;
@@ -369,13 +369,13 @@ air.notify = function(data){
 
         // name, addr, lng, lat, team
         var result = {
-          name: d.portalV2 ? d.portalV2.descriptiveText.TITLE || 'No Name' : 'No Name'
-         ,addr: d.portalV2 ? d.portalV2.descriptiveText.ADDRESS || '-' : '-'
+          name: d.portalV2 && d.portalV2.descriptiveText ? d.portalV2.descriptiveText.TITLE || 'No Name' : 'No Name'
+         ,addr: d.portalV2 && d.portalV2.descriptiveText ? d.portalV2.descriptiveText.ADDRESS || '-' : '-'
          ,lngE6: d.locationE6.lngE6
          ,latE6: d.locationE6.latE6
          ,lng: d.locationE6.lngE6.toString().replace(dE6, '.$1')
          ,lat: d.locationE6.latE6.toString().replace(dE6, '.$1')
-         ,imageUrl: d.imageByUrl ? d.imageByUrl.imageUrl || '' : ''
+         ,imageUrl: d.imageByUrl ? (d.imageByUrl.imageUrl || '').replace(/\"/g, '&quot;') : ''
          ,team: d.controllingTeam.team
          ,resonators: []
          ,level: 0
