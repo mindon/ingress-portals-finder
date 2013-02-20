@@ -1,7 +1,7 @@
 var ready, dr, portals, levels, nzlevel, teams, stat, tid, tn = 0;
 var EnergyMax = [0, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 6000 ];
 var air = chrome.extension.getBackgroundPage();
-var mapWin;
+var mapWin, center = [22.528176, 113.928448];
 
 var vs = {}, vsc = {}, sortKey;
 
@@ -35,21 +35,21 @@ window.addEventListener('message', function(event) {
 
 function updateBounds( data ) {
   var d = data.center;
-  if( d && typeof d.Ya == 'number' && typeof d.Za == 'number' ) {
-    localStorage['center'] = d.Ya +',' + d.Za;
+  if( d && d.length == 2 ) {
+    center = d;
   }
   if( data.zoom ) {
     localStorage['zoom'] = data.zoom;
   }
   d = data.bounds;
-  if( d ) {
-    if( Math.abs(d.Z.d - d.Z.b) > 1.0
-      || Math.abs(d.ca.d - d.ca.b) > 1.2 ) {
+  if( d && d.length == 2 ) {
+    if( Math.abs(d[1][0] - d[0][0]) > 1.0
+      || Math.abs(d[1][1] - d[0][1]) > 1.2 ) {
       $('#myrange').show();
     }
 
-    $('#mymin').val( d.Z.b.toFixed(6) +','+ d.ca.b.toFixed(6) );
-    $('#mymax').val( d.Z.d.toFixed(6) +','+ d.ca.d.toFixed(6) );
+    $('#mymin').val( d[0].join(',') );
+    $('#mymax').val( d[1].join(',') );
   }
 }
 
@@ -87,7 +87,7 @@ function view( html, simple ) {
       window.open( $(this).attr('u') );
     });
 
-    air.center = localStorage['center'];
+    air.center = center.join(',');
 
     if( mapWin ) {
       updateMap();
@@ -133,11 +133,12 @@ function view( html, simple ) {
   }
 }
 
-var NOTIFYS = {
-  'FAILED': 'Query Failed - Sign-In Required!'
+var INED = '<p style="color:#fc6;font-size:10pt">If already in, try following steps: <br/>1) close this window; &nbsp; &nbsp; &nbsp;<br/>2) reload the /intel page;<br/>3) re-open this window. &nbsp;</ol></p>'
+, NOTIFYS = {
+  'FAILED': 'Query Failed - Sign-In Required!' + INED
  ,'INVALID': 'Invalid Query!'
  ,'QUERYING': 'Querying Portals, It Takes Time ...<div class="spinning"><div class="ball"></div><div class="ball1"></div></div>'
- ,'NOAUTH': 'Sign-In Required!'
+ ,'NOAUTH': 'Sign-In Required!' + INED
  ,'ERROR': 'Query Error! [ <a id="myreload">Reload</a> ]'
  ,'UNKNOWN': 'Unknown Error! [ <a id="myreload">Reload</a> ]'
 };
@@ -572,13 +573,20 @@ $(document).ready(function(){
       $('#mybounds').show();
       $('#bigmap,#myall').hide();
       $('#mymap').show();
-      var center = localStorage['center'];
-      if( center ) {
-        var d = center.split(',');
-        center = [parseFloat(d[0]), parseFloat(d[1])];
-      } else {
-        center = [22.528176, 113.928448];
+
+      var dxp = /^[\.\-\d]+,[\.\-\d]+$/;
+      if( dxp.test($('#mymin').val()) && dxp.test($('#mymax').val()) ) {
+        var sw = $('#mymin').val().split(',')
+           , ne = $('#mymax').val().split(',');
+
+        center = [ (parseFloat(sw[0]) +(parseFloat(ne[0])-parseFloat(sw[0]))/2).toFixed(6)
+          , (parseFloat(sw[1]) +(parseFloat(ne[1])-parseFloat(sw[1]))/2).toFixed(6)];
+
+      } else if( localStorage['center'] ) {
+        var d = localStorage['center'].split(',');
+        center = [parseFloat(d[0]).toFixed(6), parseFloat(d[1]).toFixed(6)];
       }
+
       mapWin.postMessage({x: center[0], y: center[1], zoom: parseInt(localStorage['zoom']) || 12 }, '*');
 
       event.stopPropagation();
@@ -684,7 +692,18 @@ $(document).click(function(event){
 
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(function(position) {
-    localStorage['center'] = position.coords.latitude +',' +position.coords.longitude;
+    localStorage['center'] = position.coords.latitude.toFixed(6) +',' +position.coords.longitude.toFixed(6);
+    $('#myloc').click(function(){
+      var c = localStorage['center'];
+      if( mapWin && c ) {
+        var d = c.split(',');
+        mapWin.postMessage({x: parseFloat(d[0]), y: parseFloat(d[1]), zoom: parseInt(localStorage['zoom']) || 12 }, '*');
+      }
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      return false;
+    }).show();
   });
 }
 

@@ -66,7 +66,13 @@ window.addEventListener('message', function(event) {
   }
 
   if( d === 'BOUNDS' ) {
-    event.source.postMessage( {bounds: ingr.getBounds(), center: ingr.getCenter(), zoom: ingr.getZoom()}, target );
+    var bounds = ingr.getBounds()
+      , sw = bounds.getSouthWest()
+      , ne = bounds.getNorthEast()
+      , center = ingr.getCenter();
+
+    event.source.postMessage( {bounds: [[sw.lat().toFixed(6), sw.lng().toFixed(6)], [ne.lat().toFixed(6), ne.lng().toFixed(6)]], center: [center.lat().toFixed(6), center.lng().toFixed(6)], zoom: ingr.getZoom()}, target );
+    sw = ne = center = bounds = null;
     return true;
   }
 
