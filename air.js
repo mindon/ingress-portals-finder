@@ -2,7 +2,7 @@ var win, aw, data = 'INIT';
 var portals, center, level;
 chrome.browserAction.onClicked.addListener(function(tab) {
 
-  if( /^http:\/\/www.ingress.com/i.test( tab.url ) ) {
+  if( /^http[s]?:\/\/(www\.)?ingress\.com/i.test( tab.url ) ) {
     if(win && win.active) {
       try{chrome.tabs.remove([win.id]);}catch(e){}
     }
