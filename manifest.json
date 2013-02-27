@@ -25,5 +25,5 @@
  ]
  ,"homepage_url": "http://mindon.github.com/"
  ,"manifest_version": 2
- ,"update_url": "https://github.com/mindon/ingress-portals-finder/blob/master/build/ingr-updates.xml"
+ ,"update_url": "https://raw.github.com/mindon/ingress-portals-finder/master/build/ingr-updates.xml"
 }

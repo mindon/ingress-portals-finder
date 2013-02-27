@@ -4,6 +4,12 @@ ingress-portals-finder
 a Chrome Extension for the Game - Ingress
 
 
+Updates
+--------------------
+v1.3.10 fix https bug & provide auto-update feature
+
+
+
 Usage Details
 ----------------------
 <http://mindon.github.com/blog/2013/01/26/incredible-ingress-portals-finder-a-chrome-extension-for-the-game/>
