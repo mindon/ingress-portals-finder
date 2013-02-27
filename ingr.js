@@ -1,6 +1,6 @@
 var ck = document.cookie.match(/(^|;)\s*csrftoken=([^\s;]+)/i)
   , token = ck && ck[2] || ''
-  , api = "http://www.ingress.com/rpc/dashboard.getThinnedEntitiesV2"
+  , api = "//www.ingress.com/rpc/dashboard.getThinnedEntitiesV2"
   , qk = '013212223212'
   , param = {
     "minLevelOfDetail" : 0,
