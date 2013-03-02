@@ -83,7 +83,7 @@ function kml(img, level) {
   }
 
   var kmlstr = '';
-  var styles = '<Style id="ALIENS"><IconStyle><color>ff00aa55</color></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style><Style id="RESISTANCE"><IconStyle><color>ffaa0000</color></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style><Style id="NEUTRAL"><IconStyle><color>ff333366</color></IconStyle><LabelStyle><color>ff333366</color></LabelStyle></Style>'
+  var styles = '<Style id="ALIENS"><IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png</href></Icon><color>ff00aa55</color></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style><Style id="RESISTANCE"><IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png</href></Icon><color>ffaa0000</color></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style><Style id="NEUTRAL"><IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/yellow-dot.png</href></Icon><color>ff333366</color></IconStyle><LabelStyle><color>ff333366</color></LabelStyle></Style>'
     , colors = {'ALIENS':'#00aa00','RESISTANCE':'#0000aa','NEUTRAL':'#663333'};
 
   n.forEach(function(v){
