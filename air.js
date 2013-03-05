@@ -1,6 +1,6 @@
 // Called when the url of a tab changes.
 function checkForValidUrl(tabId, changeInfo, tab) {
-    console.log('checkForValidUrl', tabId, changeInfo, tab);
+//    console.log('checkForValidUrl', tabId, changeInfo, tab);
     if (tab.url.indexOf('ingress.com') > -1) {
         // ... show the page action.
         chrome.pageAction.show(tabId);
