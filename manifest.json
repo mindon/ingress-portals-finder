@@ -2,7 +2,7 @@
   "name": "Ingress Portals Finder"
  ,"description": "Find Local Portals of The Game - Ingress"
  ,"version": "1.3.10"
- ,"browser_action": {
+ ,"page_action": {
     "default_title": "Find Ingress Portals Around",
     "default_icon": "20.png"
  }
@@ -21,7 +21,7 @@
      "pages": ["tmpl.html", "map.html", "all.html"]
   }
  ,"permissions": [
-    "http://www.ingress.com/*", "https://www.ingress.com/*"
+    "http://www.ingress.com/*", "https://www.ingress.com/*", "tabs"
  ]
  ,"homepage_url": "http://mindon.github.com/"
  ,"manifest_version": 2
