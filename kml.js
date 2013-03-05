@@ -83,8 +83,13 @@ function kml(img, level) {
   }
 
   var kmlstr = '';
-  var styles = '<Style id="ALIENS"><IconStyle><color>ff00aa55</color></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style><Style id="RESISTANCE"><IconStyle><color>ffaa0000</color></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style><Style id="NEUTRAL"><IconStyle><color>ff333366</color></IconStyle><LabelStyle><color>ff333366</color></LabelStyle></Style>'
-    , colors = {'ALIENS':'#00aa00','RESISTANCE':'#0000aa','NEUTRAL':'#663333'};
+  var styles = '<Style id="ALIENS"><IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png</href></Icon></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style>'
+    + '<Style id="ALIENSweak"><IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/green.png</href></Icon></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style>'
+    + '<Style id="RESISTANCE"><IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png</href></Icon></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style>'
+    + '<Style id="RESISTANCEweak"><IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/blue.png</href></Icon></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style>'
+    + '<Style id="NEUTRAL"><IconStyle><Icon><href>https://maps.gstatic.com/mapfiles/ms2/micons/yellow.png</href></Icon></IconStyle><LabelStyle><color>ff333366</color></LabelStyle></Style>'
+    + '<Style id="NEUTRALweak"><IconStyle><Icon><href>https://maps.gstatic.com/mapfiles/ms2/micons/yellow.png</href></Icon></IconStyle><LabelStyle><color>ff333366</color></LabelStyle></Style>';
+  var colors = {'ALIENS':'#00aa00','RESISTANCE':'#0000aa','NEUTRAL':'#663333'};
 
   n.forEach(function(v){
     var idx = levels[v];
@@ -109,7 +114,7 @@ function kml(img, level) {
         kmlstr += '<li>Links: '+(0+l.links)+'</li>';
         kmlstr += '<li>Mods: '+(0+l.mods)+'</li></ul>';
         kmlstr += '</td>'+(img?'<td width="120"><div style="background-position:center center;background-size:contain;background-repeat: no-repeat;width:120px;height: 160px;background-image:url('+l.imageUrl+')"></div></td>':'')+'</tr></table>';
-        kmlstr += ']]></description><styleUrl>#'+l.team+'</styleUrl><Point><coordinates>'+l.lng+','+l.lat+',0</coordinates></Point></Placemark>';
+        kmlstr += ']]></description><styleUrl>#'+l.team+(l.energyLevel <= 50 ? 'weak' : '')+'</styleUrl><Point><coordinates>'+l.lng+','+l.lat+',0</coordinates></Point></Placemark>';
       }
     });
   });
