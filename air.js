@@ -1,6 +1,19 @@
+// Called when the url of a tab changes.
+function checkForValidUrl(tabId, changeInfo, tab) {
+    console.log('checkForValidUrl', tabId, changeInfo, tab);
+    if (tab.url.indexOf('ingress.com') > -1) {
+        // ... show the page action.
+        chrome.pageAction.show(tabId);
+    }
+}
+
+// Listen for any changes to the URL of any tab.
+chrome.tabs.onUpdated.addListener(checkForValidUrl);
+
+
 var win, aw, data = 'INIT';
 var portals, center, level;
-chrome.browserAction.onClicked.addListener(function(tab) {
+chrome.pageAction.onClicked.addListener(function(tab) {
 
   if( /^http[s]?:\/\/(www\.)?ingress\.com/i.test( tab.url ) ) {
     if(win && win.active) {
