@@ -1,8 +1,7 @@
+var ingrUrl = /^http[s]?:\/\/(www\.)?ingress\.com/i; 
 // Called when the url of a tab changes.
 function checkForValidUrl(tabId, changeInfo, tab) {
-//    console.log('checkForValidUrl', tabId, changeInfo, tab);
-    if (tab.url.indexOf('ingress.com') > -1) {
-        // ... show the page action.
+    if( ingrUrl.test(tab.url) ) {
         chrome.pageAction.show(tabId);
     }
 }
@@ -10,12 +9,11 @@ function checkForValidUrl(tabId, changeInfo, tab) {
 // Listen for any changes to the URL of any tab.
 chrome.tabs.onUpdated.addListener(checkForValidUrl);
 
-
 var win, aw, data = 'INIT';
 var portals, center, level;
-chrome.pageAction.onClicked.addListener(function(tab) {
 
-  if( /^http[s]?:\/\/(www\.)?ingress\.com/i.test( tab.url ) ) {
+function tabClicked(tab) {
+  if( ingrUrl.test( tab.url ) ) {
     if(win && win.active) {
       try{chrome.tabs.remove([win.id]);}catch(e){}
     }
@@ -38,7 +36,9 @@ chrome.pageAction.onClicked.addListener(function(tab) {
       chromeWindow.alwaysOnTop = true;
     });
   }
-});
+}
+chrome.pageAction.onClicked.addListener(tabClicked);
+chrome.browserAction.onClicked.addListener(tabClicked);
 
 var gpack, gbounds;
 function response(pack) {

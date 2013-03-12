@@ -133,7 +133,7 @@ function view( html, simple ) {
   }
 }
 
-var INED = '<p style="color:#fc6;font-size:10pt">If already in, try following steps: <br/>1) close this window; &nbsp; &nbsp; &nbsp;<br/>2) reload the /intel page;<br/>3) re-open this window. &nbsp;</ol></p>'
+var INED = '<p style="color:#fc6;font-size:10pt">If already in, try "Query" again or following steps: <br/>1) close this window; &nbsp; &nbsp; &nbsp;<br/>2) reload the /intel page;<br/>3) re-open this window. &nbsp;</ol></p>'
 , NOTIFYS = {
   'FAILED': 'Query Failed - Sign-In Required!' + INED
  ,'INVALID': 'Invalid Query!'
