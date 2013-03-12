@@ -49,8 +49,7 @@ xhr.onreadystatechange = function(){
     if( !ready && xhr.status != 200 || this.repsonseText == 'User not authenticated' ) // failed
       return port.postMessage('NOAUTH');
 
-    var c = ''
-      , resp;
+    var resp;
     try {
       resp = JSON.parse(this.responseText);
     } catch(e){}
@@ -81,4 +80,4 @@ function ingr(bounds) {
   xhr.setRequestHeader("X-CSRFToken", token);
   xhr.withCredentials = true;
   xhr.send( JSON.stringify(param) );
-};
+}

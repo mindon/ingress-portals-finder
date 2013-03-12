@@ -4,18 +4,18 @@ Base64.encode = function(str, utf8encode) {
   utf8encode =  (typeof utf8encode == 'undefined') ? false : utf8encode;
   var o1, o2, o3, bits, h1, h2, h3, h4, e=[], pad = '', c, plain, coded;
   var b64 = Base64.code;
-   
+
   plain = utf8encode ? Utf8.encode(str) : str;
-  
+
   c = plain.length % 3;
   if (c > 0) { while (c++ < 3) { pad += '='; plain += '\0'; } }
   for (c=0; c<plain.length; c+=3) {
     o1 = plain.charCodeAt(c);
     o2 = plain.charCodeAt(c+1);
     o3 = plain.charCodeAt(c+2);
-      
+
     bits = o1<<16 | o2<<8 | o3;
-      
+
     h1 = bits>>18 & 0x3f;
     h2 = bits>>12 & 0x3f;
     h3 = bits>>6 & 0x3f;
@@ -26,7 +26,7 @@ Base64.encode = function(str, utf8encode) {
   coded = e.join('');
   coded = coded.slice(0, coded.length-pad.length) + pad;
   return coded;
-}
+};
 
 var Utf8 = {};
 Utf8.encode = function(strUni) {
@@ -43,7 +43,7 @@ Utf8.encode = function(strUni) {
         return String.fromCharCode(0xe0 | cc>>12, 0x80 | cc>>6&0x3F, 0x80 | cc&0x3f); }
     );
   return strUtf;
-}
+};
 
 // escape xml
 function vxml( s ) {
@@ -198,8 +198,8 @@ function csv(img, level) {
       if( valid && matched && same ) {
         csvstr += '"'+(l.team=='ALIENS'?'ENLIGHTENED':l.team)+'"';
         csvstr += ',"'+(0+l.level)+'"';
-        csvstr += ',"'+l.name.replace(/\"/g, '\'\'')+'"';
-        csvstr += ',"'+l.addr.replace(/\"/g, '\'\'')+'"';
+        csvstr += ',"'+l.name.replace(/"/g, '\'\'')+'"';
+        csvstr += ',"'+l.addr.replace(/"/g, '\'\'')+'"';
         csvstr += ',"'+(0+l.energyLevel)+'"';
         csvstr += ',"'+(0+l.links)+'"';
         csvstr += ',"'+(0+l.mods)+'"';
