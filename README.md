@@ -9,6 +9,11 @@ Updates
 v1.3.10 fix https bug & provide auto-update feature
 
 
+Inspire Me :-)
+--------------------
+If you found this project useful, please donate.
+[[Donate 0.99$ on Paypal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HCJSW6U8PUNEJ)]
+
 
 Usage Details
 ----------------------
