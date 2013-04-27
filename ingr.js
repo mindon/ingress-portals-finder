@@ -3,7 +3,7 @@ var ck = document.cookie.match(/(^|;)\s*csrftoken=([^\s;]+)/i)
   , api = "//www.ingress.com/rpc/dashboard.getThinnedEntitiesV2"
   , qk = '013212223212'
   , param = {
-    "minLevelOfDetail" : 0,
+    "zoom" : 0,
     "boundsParamsList" : [ {
       "id" : qk,
       "minLatE6": 22370051,
