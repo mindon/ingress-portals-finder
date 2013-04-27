@@ -111,7 +111,7 @@ function view( html, simple ) {
 
       var offset = $(this).offset()
         , lv = $(this).attr('lv');
-      $('#myexport b').html( lv );
+      $('#myexport').find('b').html( lv );
 
       $('#myexport').attr('lv', lv).css({right: 4, top: offset.top -36}).show();
 
@@ -192,12 +192,12 @@ function filter( results ) {
   var n = []
     , krxp
     , trxp;
-  $('#mylevels a.active').each(function() {
+  $('#mylevels').find('a.active').each(function() {
     n.push( parseInt($(this).attr('lv')) );
   });
   if( n.length == 0 ) {
     n = [nzlevel];
-    $('#mylevels a[lv="'+nzlevel+'"]').addClass('active');
+    $('#mylevels').find('a[lv="'+nzlevel+'"]').addClass('active');
   } else {
     n.sort();
   }
@@ -282,7 +282,7 @@ function filter( results ) {
   });
 
   var n = 0;
-  $('#mylevels a.active[lv]').each(function() {
+  $('#mylevels').find('a.active[lv]').each(function() {
     var v = parseInt($(this).attr('lv'));
     $(this).find('u').html( num[v]||0 );
     n += num[v]||0;
@@ -295,7 +295,7 @@ function filter( results ) {
       } else {
         y = -30 + Math.round(30*vsc[v]['ALIENS']/(vsc[v]['ALIENS'] + vsc[v]['RESISTANCE']));
       }
-      $('#mylevels a[lv="'+v+'"]').css('background-position-y', y);
+      $('#mylevels').find('a[lv="'+v+'"]').css('background-position-y', y);
     }
   });
 
@@ -336,7 +336,7 @@ air.notify = function(data){
 
   } else {
     sortKey = '';
-    $('#mylevels a[lv] u').html( 0 ).removeData('num');
+    $('#mylevels').find('a[lv] u').html( 0 ).removeData('num');
 
     // deleted
     var deleted = {};
@@ -446,7 +446,7 @@ air.notify = function(data){
     nzlevel = -1;
     for(var k in levels) {
       var v = levels[k] ? levels[k].length : 0;
-      $('#mylevels a[lv="'+k+'"] u').html( v ).data( 'num',  v );
+      $('#mylevels').find('a[lv="'+k+'"] u').html( v ).data( 'num',  v );
       total += v;
       if(v && nzlevel === -1 )
         nzlevel = parseInt(k);
@@ -464,7 +464,7 @@ air.notify = function(data){
         } else {
           y = -30 + Math.round(30*vs[k]['ALIENS']/(vs[k]['ALIENS'] + vs[k]['RESISTANCE']));
         }
-        $('#mylevels a[lv="'+k+'"]').css('background-position-y', y).data('vs', y);
+        $('#mylevels').find('a[lv="'+k+'"]').css('background-position-y', y).data('vs', y);
       }
     }
 
@@ -484,17 +484,17 @@ $(document).ready(function(){
     window.open('about.html');
   });
 
-  $('#mylevels a').click(function(event) {
+  $('#mylevels').find('a').click(function(event) {
     if( event.ctrlKey ) {
       $(this).toggleClass('active');
       if( !$(this).hasClass('active') && $(this).find('u').data('num') ) {
         $(this).find('u').html( $(this).find('u').data('num') );
       }
     } else {
-      if( $(this).hasClass('active') && $('#mylevels a.active').length == 1 ) {
+      if( $(this).hasClass('active') && $('#mylevels').find('a.active').length == 1 ) {
         return true;
       }
-      $('#mylevels a.active').each(function(){
+      $('#mylevels').find('a.active').each(function(){
         $(this).removeClass('active');
         $(this).find('u').html( $(this).find('u').data('num') || 0 );
         if( $(this).data('vs') !== undefined ) {
@@ -512,7 +512,7 @@ $(document).ready(function(){
     localStorage['keywords'] = $('#mykey').val();
   });
 
-  $('#myteam input').click(function(){
+  $('#myteam').find('input').click(function(){
     render();
   });
 
@@ -605,7 +605,7 @@ $(document).ready(function(){
   $('#mymap').css('left', ($(window).width() - $('#mymap').width())/2);
 
   $('#allev').click(function(){
-    $('#mylevels a').addClass('active');
+    $('#mylevels').find('a').addClass('active');
     render();
   });
 
@@ -619,7 +619,7 @@ $(document).ready(function(){
     mapWin && mapWin.postMessage({key: $('#mymapkey').val().replace(/^\s+|\s+$/g, '')}, '*');
   });
 
-  $('#myexport a').click(function(){
+  $('#myexport').find('a').click(function(){
     var lv = $(this).parent().attr('lv');
     if( !lv ) {
       return $(this).removeAttr('href');
@@ -708,7 +708,8 @@ if (navigator.geolocation) {
 }
 
 $(window).resize(function(){
-  $('#mymap').css('left', ($(window).width() - $('#mymap').width())/2);
+  var mymap = $('#mymap');
+  mymap.css('left', ($(window).width() - mymap.width())/2);
   if( $('#myrange:visible').length )
     $('#myrange').hide();
 });

@@ -4,18 +4,18 @@ Base64.encode = function(str, utf8encode) {
   utf8encode =  (typeof utf8encode == 'undefined') ? false : utf8encode;
   var o1, o2, o3, bits, h1, h2, h3, h4, e=[], pad = '', c, plain, coded;
   var b64 = Base64.code;
-   
+
   plain = utf8encode ? Utf8.encode(str) : str;
-  
+
   c = plain.length % 3;
   if (c > 0) { while (c++ < 3) { pad += '='; plain += '\0'; } }
   for (c=0; c<plain.length; c+=3) {
     o1 = plain.charCodeAt(c);
     o2 = plain.charCodeAt(c+1);
     o3 = plain.charCodeAt(c+2);
-      
+
     bits = o1<<16 | o2<<8 | o3;
-      
+
     h1 = bits>>18 & 0x3f;
     h2 = bits>>12 & 0x3f;
     h3 = bits>>6 & 0x3f;
@@ -26,7 +26,7 @@ Base64.encode = function(str, utf8encode) {
   coded = e.join('');
   coded = coded.slice(0, coded.length-pad.length) + pad;
   return coded;
-}
+};
 
 var Utf8 = {};
 Utf8.encode = function(strUni) {
@@ -43,7 +43,7 @@ Utf8.encode = function(strUni) {
         return String.fromCharCode(0xe0 | cc>>12, 0x80 | cc>>6&0x3F, 0x80 | cc&0x3f); }
     );
   return strUtf;
-}
+};
 
 // escape xml
 function vxml( s ) {
@@ -83,8 +83,29 @@ function kml(img, level) {
   }
 
   var kmlstr = '';
-  var styles = '<Style id="ALIENS"><IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png</href></Icon><color>ff00aa55</color></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style><Style id="RESISTANCE"><IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png</href></Icon><color>ffaa0000</color></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style><Style id="NEUTRAL"><IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/yellow-dot.png</href></Icon><color>ff333366</color></IconStyle><LabelStyle><color>ff333366</color></LabelStyle></Style>'
-    , colors = {'ALIENS':'#00aa00','RESISTANCE':'#0000aa','NEUTRAL':'#663333'};
+  var styles = '<Style id="NEUTRAL"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/neutral_icon.png</href></Icon></IconStyle><LabelStyle><color>ff333366</color></LabelStyle></Style>'
+    + '<Style id="ALIENS"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/enl_8res.png</href></Icon></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style>'
+    + '<Style id="RESISTANCE"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/hum_8res.png</href></Icon></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style>';
+
+  styles +='<Style id="ALIENS1"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/enl_1res.png</href></Icon></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style>'
+    + '<Style id="ALIENS2"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/enl_2res.png</href></Icon></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style>'
+    + '<Style id="ALIENS3"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/enl_3res.png</href></Icon></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style>'
+    + '<Style id="ALIENS4"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/enl_4res.png</href></Icon></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style>'
+    + '<Style id="ALIENS5"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/enl_5res.png</href></Icon></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style>'
+    + '<Style id="ALIENS6"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/enl_6res.png</href></Icon></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style>'
+    + '<Style id="ALIENS7"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/enl_7res.png</href></Icon></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style>'
+    + '<Style id="ALIENS8"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/enl_8res.png</href></Icon></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style>';
+
+  styles += '<Style id="RESISTANCE1"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/hum_1res.png</href></Icon></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style>'
+    + '<Style id="RESISTANCE2"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/hum_2res.png</href></Icon></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style>'
+    + '<Style id="RESISTANCE3"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/hum_3res.png</href></Icon></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style>'
+    + '<Style id="RESISTANCE4"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/hum_4res.png</href></Icon></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style>'
+    + '<Style id="RESISTANCE5"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/hum_5res.png</href></Icon></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style>'
+    + '<Style id="RESISTANCE6"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/hum_6res.png</href></Icon></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style>'
+    + '<Style id="RESISTANCE7"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/hum_7res.png</href></Icon></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style>'
+    + '<Style id="RESISTANCE8"><IconStyle><Icon><href>http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/hum_8res.png</href></Icon></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style>';
+
+  var colors = {'ALIENS':'#00aa00','RESISTANCE':'#0000aa','NEUTRAL':'#663333'};
 
   n.forEach(function(v){
     var idx = levels[v];
@@ -109,7 +130,23 @@ function kml(img, level) {
         kmlstr += '<li>Links: '+(0+l.links)+'</li>';
         kmlstr += '<li>Mods: '+(0+l.mods)+'</li></ul>';
         kmlstr += '</td>'+(img?'<td width="120"><div style="background-position:center center;background-size:contain;background-repeat: no-repeat;width:120px;height: 160px;background-image:url('+l.imageUrl+')"></div></td>':'')+'</tr></table>';
-        kmlstr += ']]></description><styleUrl>#'+l.team+'</styleUrl><Point><coordinates>'+l.lng+','+l.lat+',0</coordinates></Point></Placemark>';
+
+        var teamStyle = l.team;
+//        l.level = 0 + l.level; // make sure this a number
+        // Show portal resonators to indicate level.
+        if (0 < l.level && l.level <= 8) {
+          // Assumes neutral portals are level zero.
+          // Valid interval [1,8]
+          teamStyle += '' + l.level;
+        }
+
+        // Would Show portal resonators to indicate energy level
+        if (false && 0 < l.energyLevel && l.energyLevel <= 100) {
+          // Assumes neutral portals have zero energy and captured portals have energy
+          // Valid interval [1,8]
+          teamStyle += '' + (Math.round(l.energyLevel/100*8+0.49));
+        }
+        kmlstr += ']]></description><styleUrl>#'+teamStyle+'</styleUrl><Point><coordinates>'+l.lng+','+l.lat+',0</coordinates></Point></Placemark>';
       }
     });
   });
@@ -161,8 +198,8 @@ function csv(img, level) {
       if( valid && matched && same ) {
         csvstr += '"'+(l.team=='ALIENS'?'ENLIGHTENED':l.team)+'"';
         csvstr += ',"'+(0+l.level)+'"';
-        csvstr += ',"'+l.name.replace(/\"/g, '\'\'')+'"';
-        csvstr += ',"'+l.addr.replace(/\"/g, '\'\'')+'"';
+        csvstr += ',"'+l.name.replace(/"/g, '\'\'')+'"';
+        csvstr += ',"'+l.addr.replace(/"/g, '\'\'')+'"';
         csvstr += ',"'+(0+l.energyLevel)+'"';
         csvstr += ',"'+(0+l.links)+'"';
         csvstr += ',"'+(0+l.mods)+'"';
