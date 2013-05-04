@@ -141,7 +141,7 @@ function csv(img, level) {
     t.push('NEUTRAL');
   }
 
-  var csvstr = '"Team","Level","Name","Address","Energy","Links","Mods","Resonators","PHOTO"\n';
+  var csvstr = '"Team","Level","Name","Address","Energy","Links","Mods","Resonators","PHOTO","GUID"\n';
 
   n.forEach(function(v){
     var idx = levels[v];
@@ -167,7 +167,8 @@ function csv(img, level) {
         csvstr += ',"'+(0+l.links)+'"';
         csvstr += ',"'+(0+l.mods)+'"';
         csvstr += ',"'+vxml(l.resonators.join('') || '-')+'"';
-        csvstr += ',"'+(l.imageUrl||'')+'"\n';
+        csvstr += ',"'+(l.imageUrl||'')+'"';
+	    csvstr += ',"'+l.guid+'"\n';
       }
     });
   });
