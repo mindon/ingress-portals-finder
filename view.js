@@ -368,9 +368,11 @@ air.notify = function(data){
           return;
         dupc[v[0]] = true;
 
-        // name, addr, lng, lat, team
+        // GUID, time, name, addr, lng, lat, team
         var result = {
-          name: d.portalV2 && d.portalV2.descriptiveText ? d.portalV2.descriptiveText.TITLE || 'No Name' : 'No Name'
+		  guid: v[0]
+		 ,time: v[1]
+         ,name: d.portalV2 && d.portalV2.descriptiveText ? d.portalV2.descriptiveText.TITLE || 'No Name' : 'No Name'
          ,addr: d.portalV2 && d.portalV2.descriptiveText ? d.portalV2.descriptiveText.ADDRESS || '-' : '-'
          ,lngE6: d.locationE6.lngE6
          ,latE6: d.locationE6.latE6
