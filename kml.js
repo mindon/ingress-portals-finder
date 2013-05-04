@@ -174,3 +174,90 @@ function csv(img, level) {
 
   return 'data:text/comma-separated-values;base64,'+Base64.encode(csvstr, true);
 }
+
+function gpx(img, level) {
+  var strBounds = window.localStorage['bounds'];
+  var bounds = strBounds.split(',');
+  var n = [0,1,2,3,4,5,6,7,8]
+    , krxp
+    , trxp;
+
+  if( !isNaN(level) ) 
+    n = [level];
+
+  var v = $('#mykey').val();
+  if( /\S/.test(v) ) {
+    krxp = new RegExp( '(' +v.replace(/^\s+|\s+$/g,'').toLowerCase().replace(/\s*,\s*/g, '|') +')', 'ig' );
+  }
+
+  var t = [];
+  if( $('#enlightened:checked').length ) {
+    t.push('ALIENS');
+  }
+  if( $('#resistance:checked').length ) {
+    t.push('RESISTANCE');
+  }
+  if( $('#neutral:checked').length ) {
+    t.push('NEUTRAL');
+  }
+
+  var gpxstr = '<?xml version="1.0"?>\n';
+  gpxstr += '<gpx creator="byHand" version="1.1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/WaypointExtension/v1 http://www8.garmin.com/xmlschemas/WaypointExtensionv1.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/ActivityExtension/v1 http://www8.garmin.com/xmlschemas/ActivityExtensionv1.xsd http://www.garmin.com/xmlschemas/AdventuresExtensions/v1 http://www8.garmin.com/xmlschemas/AdventuresExtensionv1.xsd http://www.garmin.com/xmlschemas/PressureExtension/v1 http://www.garmin.com/xmlschemas/PressureExtensionv1.xsd http://www.garmin.com/xmlschemas/TripExtensions/v1 http://www.garmin.com/xmlschemas/TripExtensionsv1.xsd" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wptx1="http://www.garmin.com/xmlschemas/WaypointExtension/v1" xmlns:gpxtrx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:trp="http://www.garmin.com/xmlschemas/TripExtensions/v1" xmlns:adv="http://www.garmin.com/xmlschemas/AdventuresExtensions/v1" xmlns:prs="http://www.garmin.com/xmlschemas/PressureExtension/v1">\n';
+  gpxstr += '<metadata>\n';
+  gpxstr += '<bounds maxlat="'+bounds[2]+'" maxlon="'+bounds[3]+'" minlat="'+bounds[0]+'" minlon="'+bounds[1]+'"/>\n';
+  gpxstr += '</metadata>\n';
+  
+  var names = {};
+
+  n.forEach(function(v){
+    var idx = levels[v];
+    if( !idx || idx.length == 0 )
+      return;
+
+    idx.sort(function(a,b){
+      var u = portals[a], v = portals[b], c = u.links - v.links;
+      return !u||!v||c==0?0:(c>0?1:-1);
+    });
+    idx.forEach(function(u) {
+      var l = portals[u]
+        , valid = l ? true : false
+        , matched = krxp ? krxp.test(l.addr) : true
+        , same = t.length ? t.indexOf(l.team) > -1 : false;
+
+      if( valid && matched && same ) {
+	  
+		var myname = l.name;
+		myname = myname.slice(0,39);
+		if (names[myname]==1) {
+			var i=0;
+			myname = myname.slice(0,36);
+			var newname = myname+'['+i+']';
+			while (names[newname]==1) {
+				i++;
+				newname = myname+'['+i+']';
+			}
+			console.log('NAME: '+myname+' NEWNAME: '+newname+'\n');
+			myname = newname;
+		}
+		names[myname]=1;
+		var now = new Date();
+		gpxstr += '<wpt lat="'+l.lat+'" lon="'+l.lng+'">\n';
+		gpxstr += '<name><![CDATA['+myname+']]></name>\n';
+		gpxstr += '<cmt><![CDATA['+l.addr+']]></cmt>\n';
+		gpxstr += '<desc>'+(l.team=='ALIENS'?'ENLIGHTENED':l.team)+' ('+now.toLocaleString()+')</desc>\n';
+		gpxstr += '<link href="'+l.imageUrl+'"/>\n';
+		gpxstr += '<extensions>\n';
+		gpxstr += '  <gpxx:WaypointExtension>\n';
+		gpxstr += '    <gpxx:DisplayMode>SymbolOnly</gpxx:DisplayMode>\n';
+		gpxstr += '  </gpxx:WaypointExtension>\n';
+		gpxstr += '</extensions>\n';
+		gpxstr += '</wpt>\n';
+      }
+    });
+  });
+  
+  gpxstr += '</gpx>\n';
+
+  return 'data:application/gpx;base64,'+Base64.encode(gpxstr, true);
+}
+
