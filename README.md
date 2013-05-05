@@ -6,6 +6,8 @@ a Chrome Extension for the Game - Ingress
 
 Updates
 --------------------
+v1.3.12 update query parameters by Ivan101, thanks
+
 v1.3.10 fix https bug & provide auto-update feature
 
 
@@ -19,7 +21,7 @@ Usage Details
 ----------------------
 <http://mindon.github.com/blog/2013/01/26/incredible-ingress-portals-finder-a-chrome-extension-for-the-game/>
 
-There's the link for the latest build CRX file.
+There's the instructions for making the latest build CRX file.
 
 
 **Easy Usage**: 1) Set Bounds; 2) Click Query; 3) Filter by Tag, Team or Level.
