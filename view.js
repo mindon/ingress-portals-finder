@@ -324,6 +324,8 @@ function render() {
   }
 }
 
+function vE6(v){var i=v.length; return i>6?v.replace(/(\d{6})$/,'.$1'):'.00000'.substr(0,7-i)+v}
+
 air.notify = function(data){
   window.gdata = data;
 
@@ -350,7 +352,7 @@ air.notify = function(data){
     // entities
     if( data.gameEntities ) {
       var results = []
-        , dE6 = /(\d{6})$/
+        , dE6 = /^(\d+)$/
         , n = 0;
 
       // reset global data
@@ -376,8 +378,8 @@ air.notify = function(data){
          ,addr: d.portalV2 && d.portalV2.descriptiveText ? d.portalV2.descriptiveText.ADDRESS || '-' : '-'
          ,lngE6: d.locationE6.lngE6
          ,latE6: d.locationE6.latE6
-         ,lng: d.locationE6.lngE6.toString().replace(dE6, '.$1')
-         ,lat: d.locationE6.latE6.toString().replace(dE6, '.$1')
+         ,lng: d.locationE6.lngE6.toString().replace(dE6, vE6)
+         ,lat: d.locationE6.latE6.toString().replace(dE6, vE6)
          ,imageUrl: d.imageByUrl ? (d.imageByUrl.imageUrl || '').replace(/\"/g, '&quot;') : ''
          ,team: d.controllingTeam.team
          ,resonators: []
