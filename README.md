@@ -6,7 +6,9 @@ a Chrome Extension for the Game - Ingress
 
 Updates
 --------------------
-v1.3.12 update query parameters by Ivan101, thanks
+v1.3.13 1) github code move into src/ folder; 2) update about info; 3) fix low Long/Lat bug (thanks **tankslappa**).
+
+v1.3.12 update query parameters by **Ivan101**, thanks
 
 v1.3.10 fix https bug & provide auto-update feature
 
