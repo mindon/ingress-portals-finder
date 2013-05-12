@@ -4,8 +4,17 @@ ingress-portals-finder
 a Chrome Extension for the Game - Ingress
 
 
+Notice
+----------------
+Please use the crx file in the build folder. This could get updates if there's a new version. ( By clicking the "Update extensions now" button in **chrome://extensions/**, you could get the new update immediately )
+
+Other builds of crx out there by someone else, they won't get updates success from here.
+
+
 Updates
 --------------------
+v1.3.14 1) fix -lat/lng problem (thanks **tankslappa**); 2) change CSV export to all levels; 3) show the GPX export for all levels (thanks **strobel1x**)
+
 v1.3.13 1) github code move into src/ folder; 2) update about info; 3) fix low Long/Lat bug (thanks **tankslappa**).
 
 v1.3.12 update query parameters by **Ivan101**, thanks

@@ -183,7 +183,7 @@ function gpx(img, level) {
     , krxp
     , trxp;
 
-  if( !isNaN(level) ) 
+  if( !isNaN(level)) 
     n = [level];
 
   var v = $('#mykey').val();

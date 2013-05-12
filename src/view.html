@@ -337,18 +337,21 @@ h1 {
   top: 0;
   right: 76px;
 }
-.export, .export-csv {
+.export, .export-csv, .export-gpx {
   position: absolute;
   top: 0;
-  right: 36px;
-  font-size: 8pt;
+  right: 44px;
+  font-size: 7pt;
   color: #000;
   cursor: pointer;
 }
 .export-csv {
+  right: 24px;
+}
+.export-gpx {
   right: 4px;
 }
-.export:hover, .export-csv:hover {
+.export:hover, .export-csv:hover, .export-gpx:hover {
   color: #f00;
 }
 .total {position:absolute;right:0;bottom:4px;line-height:1em;font-size:8pt;}
@@ -557,7 +560,7 @@ h1 {
   background: transparent url(max.png) no-repeat 0 0;
 }
 </style>
-<div id="myexport" style="display:none"><a target="_blank" title="Export only current level">Level <b>0</b></a> &nbsp; | &nbsp; <a target="_blank" title="Export all levels matched">All</a> <input type="checkbox" id="withimage" checked title="With portal photo"/></div>
+<div id="myexport" style="display:none"><a target="_blank" title="Export only current level">Level <b>0</b></a> &nbsp; | &nbsp; <a target="_blank" title="Export All Levels">All</a> <input type="checkbox" id="withimage" checked title="With portal photo"/></div>
 <div id="myrange" style="display:none"></div>
 <div id="mymap" style="display:none"><iframe id="mapfr" frameBorder="0"></iframe><div id="mapbar"><a id="myloc" style="display:none" title="My Current Position">&#9678;</a><a id="myoff">×</a><a id="mybounds">Get Bounds</a><a id="bigmap" target="_blank" style="display:none">View Map Alone</a><a id="myall" style="display:none">All</a></div></div>
 <style>

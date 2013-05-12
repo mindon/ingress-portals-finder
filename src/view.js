@@ -127,8 +127,18 @@ function view( html, simple ) {
       var now = new Date()
         , timestr = 'T'+ (now.getMonth() > 8 ? '' : '0') + (1+now.getMonth()) +(now.getDate() > 9 ? '' : '0') + now.getDate();
       var lv = $(this).attr('lv');
-      $(this).attr('download', 'Ingress-IPf-Level-'+lv+'-'+timestr+'.csv');
-      $(this).attr('href', csv(true, lv));
+      $(this).attr('download', 'Ingress-IPf-All-Levels-'+timestr+'.csv');
+      $(this).attr('href', csv(true)); //all or , lv
+    });
+    $('.LevelBar .export-gpx').click(function(event){
+      if(!window.gpx) {
+        return false;
+      }
+      var now = new Date()
+        , timestr = 'T'+ (now.getMonth() > 8 ? '' : '0') + (1+now.getMonth()) +(now.getDate() > 9 ? '' : '0') + now.getDate();
+      var lv = $(this).attr('lv');
+      $(this).attr('download', 'Ingress-IPf-All-Levels-'+timestr+'.gpx');
+      $(this).attr('href', gpx(true)); //all or , lv
     });
   }
 }
@@ -228,7 +238,7 @@ function filter( results ) {
       , n = 0;
 
     if( idx ) {
-      var LevelBar = '<div class="LevelBar"><div class="note"><div class="level" style="height:11px;background-position:0 -98px"></div>Level <div class="energy" style="height:11px;background-position:-16px -98px"></div>Energy <div class="links" style="height:11px;background-position:-32px -98px"></div>Links  <div class="mods" style="height:11px;background-position:-48px -98px"></div>Mods</div>Level - <b>' + v +'</b> &nbsp;<span class="stat" lv="'+v+'"></span><div class="export" lv="'+v+'" title="Export KML">KML</div><a class="export-csv" lv="'+v+'" title="Export Current Level as CSV">CSV</a></div>';
+      var LevelBar = '<div class="LevelBar"><div class="note"><div class="level" style="height:11px;background-position:0 -98px"></div>Level <div class="energy" style="height:11px;background-position:-16px -98px"></div>Energy <div class="links" style="height:11px;background-position:-32px -98px"></div>Links  <div class="mods" style="height:11px;background-position:-48px -98px"></div>Mods</div>Level - <b>' + v +'</b> &nbsp;<span class="stat" lv="'+v+'"></span><div class="export" lv="'+v+'" title="Export KML">KML</div><a class="export-csv" lv="'+v+'" title="Export All Levels in CSV">CSV</a><a class="export-gpx" lv="'+v+'" title="Export All Levels in GPX">GPX</a></div>';
       if( sortKey && sortFn ) {
         idx.sort(sortFn);
       }
@@ -324,7 +334,7 @@ function render() {
   }
 }
 
-function vE6(v){var i=v.length; return i>6?v.replace(/(\d{6})$/,'.$1'):'.00000'.substr(0,7-i)+v}
+function vE6(v){var x=v.substr(0,1)=='-'?'-':'',v=x?v.substr(1):v, i=v.length; return x+(i>6?v.replace(/(\d{6})$/,'.$1'):'.00000'.substr(0,7-i)+v)}
 
 air.notify = function(data){
   window.gdata = data;
@@ -352,7 +362,7 @@ air.notify = function(data){
     // entities
     if( data.gameEntities ) {
       var results = []
-        , dE6 = /^(\d+)$/
+        , dE6=/^(-?\d+)$/
         , n = 0;
 
       // reset global data
@@ -631,7 +641,7 @@ $(document).ready(function(){
     var now = new Date()
       , timestr = 'T'+ (now.getMonth() > 8 ? '' : '0') + (1+now.getMonth()) +(now.getDate() > 9 ? '' : '0') + now.getDate();
     if( $(this).html() == 'All' ) {
-      $(this).attr('download', 'Ingress-IPf-Level-A-'+timestr+'.kml');
+      $(this).attr('download', 'Ingress-IPf-All-Levels-'+timestr+'.kml');
       $(this).attr('href', kml($('#withimage:checked').length>0));
     } else {
       $(this).attr('download', 'Ingress-IPf-Level-'+lv+'-'+timestr+'.kml');
