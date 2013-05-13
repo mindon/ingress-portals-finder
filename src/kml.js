@@ -103,12 +103,13 @@ function kml(img, level) {
 
       if( valid && matched && same ) {
         kmlstr += '<Placemark><name>' + vxml(l.name) +'</name><description><![CDATA[<table>';
-        kmlstr += '<tr><td style="color:'+colors[l.team]+'"><p>'+vxml(l.addr)+'</p><ul><li>Resonators: ' +vxml(l.resonators.join('') || '-') +'</li>';
+        kmlstr += '<tr><td style="color:'+colors[l.team]+'" valign="top"><p>'+vxml(l.addr)+'</p><ul><li>Resonators: ' +vxml(l.resonators.join('') || '-') +'</li>';
         kmlstr += '<li>Level: '+(0+l.level)+'</li>';
         kmlstr += '<li>Energy: '+(0+l.energyLevel)+'</li>';
         kmlstr += '<li>Links: '+(0+l.links)+'</li>';
         kmlstr += '<li>Mods: '+(0+l.mods)+'</li></ul>';
-        kmlstr += '</td>'+(img?'<td width="120"><div style="background-position:center center;background-size:contain;background-repeat: no-repeat;width:120px;height: 160px;background-image:url('+l.imageUrl+')"></div></td>':'')+'</tr></table>';
+        kmlstr += !img?'<a href="'+l.imageUrl+'" target="_blank">View portal picture</a>':'';
+        kmlstr += '</td>'+(img?'<td width="120"><img width="120" src="'+l.imageUrl+'" /></td>':'')+'</tr></table>';
         kmlstr += ']]></description><styleUrl>#'+l.team+'</styleUrl><Point><coordinates>'+l.lng+','+l.lat+',0</coordinates></Point></Placemark>';
       }
     });
