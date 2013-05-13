@@ -13,6 +13,8 @@ Other builds of crx out there by someone else, they won't get updates success fr
 
 Updates
 --------------------
+v1.3.15 Update kml.js to: 1) level icons for KML export (thanks **sandymac**);  2) Add lat/lng to CSV export (thanks **mollyfud**).
+
 v1.3.14 1) fix -lat/lng problem (thanks **tankslappa**); 2) change CSV export to all levels; 3) show the GPX export for all levels (thanks **strobel1x**)
 
 v1.3.13 1) github code move into src/ folder; 2) update about info; 3) fix low Long/Lat bug (thanks **tankslappa**).

@@ -26,7 +26,7 @@ Base64.encode = function(str, utf8encode) {
   coded = e.join('');
   coded = coded.slice(0, coded.length-pad.length) + pad;
   return coded;
-}
+};
 
 var Utf8 = {};
 Utf8.encode = function(strUni) {
@@ -43,7 +43,7 @@ Utf8.encode = function(strUni) {
         return String.fromCharCode(0xe0 | cc>>12, 0x80 | cc>>6&0x3F, 0x80 | cc&0x3f); }
     );
   return strUtf;
-}
+};
 
 // escape xml
 function vxml( s ) {
@@ -56,6 +56,11 @@ function vxml( s ) {
   return s.replace(/&/g, '&amp;')
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;');     
+}
+
+var kmlStyleTmpl = ['<Style id="','"><IconStyle><Icon><href>','</href></Icon></IconStyle><LabelStyle><color>','</color></LabelStyle></Style>'];
+function fillKmlStyle(id, icon, color) {
+  return kmlStyleTmpl[0] +id +kmlStyleTmpl[1] + icon +kmlStyleTmpl[2] + color + kmlStyleTmpl[3];
 }
 
 function kml(img, level) {
@@ -82,9 +87,22 @@ function kml(img, level) {
     t.push('NEUTRAL');
   }
 
-  var kmlstr = '';
-  var styles = '<Style id="ALIENS"><IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png</href></Icon><color>ff00aa55</color></IconStyle><LabelStyle><color>ff00aa00</color></LabelStyle></Style><Style id="RESISTANCE"><IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png</href></Icon><color>ffaa0000</color></IconStyle><LabelStyle><color>ffaa0000</color></LabelStyle></Style><Style id="NEUTRAL"><IconStyle><Icon><href>http://maps.gstatic.com/mapfiles/ms2/micons/yellow-dot.png</href></Icon><color>ff333366</color></IconStyle><LabelStyle><color>ff333366</color></LabelStyle></Style>'
-    , colors = {'ALIENS':'#00aa00','RESISTANCE':'#0000aa','NEUTRAL':'#663333'};
+  var kmlstr = '', colors = {'ALIENS':'#00aa00','RESISTANCE':'#0000aa','NEUTRAL':'#663333'};
+  /*/
+  var iconBaseUrl = 'http://maps.gstatic.com/mapfiles/ms2/micons/';
+  var styles = fillKmlStyle('ALIENS', iconBaseUrl+'green-dot.png', 'ff00aa00')
+    + fillKmlStyle('RESISTANCE', iconBaseUrl+'blue-dot.png', 'ffaa0000')
+    + fillKmlStyle('NEUTRAL', iconBaseUrl+'yellow-dot.png', 'ff333366');
+  /*/
+  var iconBaseUrl = 'http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/';
+  var styles = fillKmlStyle('ALIENS', iconBaseUrl+'enl_8res.png', 'ff00aa00')
+    + fillKmlStyle('RESISTANCE', iconBaseUrl+'hum_8res.png', 'ffaa0000')
+    + fillKmlStyle('NEUTRAL', iconBaseUrl+'neutral_icon.png', 'ff333366');
+
+  for(var i=1; i<9; i++) {
+    styles += fillKmlStyle('ALIENS' +i, iconBaseUrl+'enl_'+i+'res.png', 'ff00aa00')
+    styles += fillKmlStyle('RESISTANCE' +i, iconBaseUrl+'hum_'+i+'res.png', 'ffaa0000')
+  }
 
   n.forEach(function(v){
     var idx = levels[v];
@@ -110,7 +128,7 @@ function kml(img, level) {
         kmlstr += '<li>Mods: '+(0+l.mods)+'</li></ul>';
         kmlstr += !img?'<a href="'+l.imageUrl+'" target="_blank">View portal picture</a>':'';
         kmlstr += '</td>'+(img?'<td width="120"><img width="120" src="'+l.imageUrl+'" /></td>':'')+'</tr></table>';
-        kmlstr += ']]></description><styleUrl>#'+l.team+'</styleUrl><Point><coordinates>'+l.lng+','+l.lat+',0</coordinates></Point></Placemark>';
+        kmlstr += ']]></description><styleUrl>#'+l.team +( parseInt(l.level) > 0 ? l.level : '' )+'</styleUrl><Point><coordinates>'+l.lng+','+l.lat+',0</coordinates></Point></Placemark>';
       }
     });
   });
@@ -263,4 +281,3 @@ function gpx(img, level) {
 
   return 'data:application/gpx;base64,'+Base64.encode(gpxstr, true);
 }
-
