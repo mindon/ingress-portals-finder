@@ -37,7 +37,9 @@ function tabClicked(tab) {
     });
   }
 }
-chrome.pageAction.onClicked.addListener(tabClicked);
+if(chrome.pageAction && chrome.pageAction.onClicked) {
+  chrome.pageAction.onClicked.addListener(tabClicked);
+}
 chrome.browserAction.onClicked.addListener(tabClicked);
 
 var gpack, gbounds;
