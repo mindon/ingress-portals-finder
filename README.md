@@ -1,7 +1,14 @@
 ingress-portals-finder
 ======================
 
-a Chrome Extension for the Game - Ingress
+a chrome extension for the Game - Ingress
+
+
+News
+----------------
+Learning android development, first learning app [DaSign](https://play.google.com/store/apps/details?id=com.mindon.idea.dasign)
+
+The next app will be the one you are expecting :-p
 
 
 Notice
@@ -13,6 +20,8 @@ Other builds of crx out there by someone else, they won't get updates success fr
 
 Updates
 --------------------
+v1.3.16 Fix undefined pageAction bug in chrome 29+
+
 v1.3.15 Update kml.js to: 1) level icons for KML export (thanks **sandymac**);  2) Add lat/lng to CSV export (thanks **mollyfud**).
 
 v1.3.14 1) fix -lat/lng problem (thanks **tankslappa**); 2) change CSV export to all levels; 3) show the GPX export for all levels (thanks **strobel1x**)
