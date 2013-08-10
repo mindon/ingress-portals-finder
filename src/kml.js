@@ -78,7 +78,7 @@ function kml(img, level) {
 
   var t = [];
   if( $('#enlightened:checked').length ) {
-    t.push('ALIENS');
+    t.push('ENLIGHTENED');
   }
   if( $('#resistance:checked').length ) {
     t.push('RESISTANCE');
@@ -87,20 +87,20 @@ function kml(img, level) {
     t.push('NEUTRAL');
   }
 
-  var kmlstr = '', colors = {'ALIENS':'#00aa00','RESISTANCE':'#0000aa','NEUTRAL':'#663333'};
+  var kmlstr = '', colors = {'ENLIGHTENED':'#00aa00','RESISTANCE':'#0000aa','NEUTRAL':'#663333'};
   /*/
   var iconBaseUrl = 'http://maps.gstatic.com/mapfiles/ms2/micons/';
-  var styles = fillKmlStyle('ALIENS', iconBaseUrl+'green-dot.png', 'ff00aa00')
+  var styles = fillKmlStyle('ENLIGHTENED', iconBaseUrl+'green-dot.png', 'ff00aa00')
     + fillKmlStyle('RESISTANCE', iconBaseUrl+'blue-dot.png', 'ffaa0000')
     + fillKmlStyle('NEUTRAL', iconBaseUrl+'yellow-dot.png', 'ff333366');
   /*/
   var iconBaseUrl = 'http://commondatastorage.googleapis.com/ingress.com/img/map_icons/marker_images/';
-  var styles = fillKmlStyle('ALIENS', iconBaseUrl+'enl_8res.png', 'ff00aa00')
+  var styles = fillKmlStyle('ENLIGHTENED', iconBaseUrl+'enl_8res.png', 'ff00aa00')
     + fillKmlStyle('RESISTANCE', iconBaseUrl+'hum_8res.png', 'ffaa0000')
     + fillKmlStyle('NEUTRAL', iconBaseUrl+'neutral_icon.png', 'ff333366');
 
   for(var i=1; i<9; i++) {
-    styles += fillKmlStyle('ALIENS' +i, iconBaseUrl+'enl_'+i+'res.png', 'ff00aa00')
+    styles += fillKmlStyle('ENLIGHTENED' +i, iconBaseUrl+'enl_'+i+'res.png', 'ff00aa00')
     styles += fillKmlStyle('RESISTANCE' +i, iconBaseUrl+'hum_'+i+'res.png', 'ffaa0000')
   }
 
@@ -151,7 +151,7 @@ function csv(img, level) {
 
   var t = [];
   if( $('#enlightened:checked').length ) {
-    t.push('ALIENS');
+    t.push('ENLIGHTENED');
   }
   if( $('#resistance:checked').length ) {
     t.push('RESISTANCE');
@@ -178,7 +178,7 @@ function csv(img, level) {
         , same = t.length ? t.indexOf(l.team) > -1 : false;
 
       if( valid && matched && same ) {
-        csvstr += '"'+(l.team=='ALIENS'?'ENLIGHTENED':l.team)+'"';
+        csvstr += '"'+l.team+'"';
         csvstr += ',"'+(0+l.level)+'"';
         csvstr += ',"'+l.name.replace(/\"/g, '\'\'')+'"';
         csvstr += ',"'+l.addr.replace(/\"/g, '\'\'')+'"';
@@ -213,7 +213,7 @@ function gpx(img, level) {
 
   var t = [];
   if( $('#enlightened:checked').length ) {
-    t.push('ALIENS');
+    t.push('ENLIGHTENED');
   }
   if( $('#resistance:checked').length ) {
     t.push('RESISTANCE');
@@ -265,7 +265,7 @@ function gpx(img, level) {
 		gpxstr += '<wpt lat="'+l.lat+'" lon="'+l.lng+'">\n';
 		gpxstr += '<name><![CDATA['+myname+']]></name>\n';
 		gpxstr += '<cmt><![CDATA['+l.addr+']]></cmt>\n';
-		gpxstr += '<desc>'+(l.team=='ALIENS'?'ENLIGHTENED':l.team)+' ('+now.toLocaleString()+')</desc>\n';
+		gpxstr += '<desc>'+l.team+' ('+now.toLocaleString()+')</desc>\n';
 		gpxstr += '<link href="'+l.imageUrl+'"/>\n';
 		gpxstr += '<extensions>\n';
 		gpxstr += '  <gpxx:WaypointExtension>\n';

@@ -1,7 +1,7 @@
 {
   "name": "Ingress Portals Finder"
  ,"description": "Find Local Portals of The Game - Ingress"
- ,"version": "1.3.16"
+ ,"version": "1.3.17"
  ,"browser_action": {
     "default_title": "Find Ingress Portals Around",
     "default_icon": "20.png"

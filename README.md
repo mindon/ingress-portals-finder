@@ -20,6 +20,8 @@ Other builds of crx out there by someone else, they won't get updates success fr
 
 Updates
 --------------------
+v1.3.17 Fix englighted problem.
+
 v1.3.16 Fix undefined pageAction bug in chrome 29+
 
 v1.3.15 Update kml.js to: 1) level icons for KML export (thanks **sandymac**);  2) Add lat/lng to CSV export (thanks **mollyfud**).

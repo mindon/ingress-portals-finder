@@ -70,9 +70,9 @@ function view( html, simple ) {
       var v = $(this).attr('lv');
       if( stat[v] ) {
         var st = stat[v]
-          , c = (st['ALIENS']||0) + (st['RESISTANCE']||0) +(st['NEUTRAL']||0);
+          , c = (st['ENLIGHTENED']||0) + (st['RESISTANCE']||0) +(st['NEUTRAL']||0);
 
-        $(this).html(c +' = <label class="enlightened">' +(st['ALIENS']||0) +'</label> + <label class="resistance">'
+        $(this).html(c +' = <label class="enlightened">' +(st['ENLIGHTENED']||0) +'</label> + <label class="resistance">'
           + (st['RESISTANCE']||0) +'</label> + <label class="neutral">' +(st['NEUTRAL']||0) +'</label>');
       } else {
         $(this).html('');
@@ -218,7 +218,7 @@ function filter( results ) {
 
   var t = [];
   if( $('#enlightened:checked').length ) {
-    t.push('ALIENS');
+    t.push('ENLIGHTENED');
   }
   if( $('#resistance:checked').length ) {
     t.push('RESISTANCE');
@@ -298,12 +298,12 @@ function filter( results ) {
     n += num[v]||0;
     if( v != '0' ) {
       var y = -15;
-      if(!vsc[v] || !vsc[v]['ALIENS']) {
+      if(!vsc[v] || !vsc[v]['ENLIGHTENED']) {
         y = !vsc[v] || !vsc[v]['RESISTANCE'] ? -60 : -30;
       } else if(!vsc[v]['RESISTANCE']) {
         y = 0;
       } else {
-        y = -30 + Math.round(30*vsc[v]['ALIENS']/(vsc[v]['ALIENS'] + vsc[v]['RESISTANCE']));
+        y = -30 + Math.round(30*vsc[v]['ENLIGHTENED']/(vsc[v]['ENLIGHTENED'] + vsc[v]['RESISTANCE']));
       }
       $('#mylevels a[lv="'+v+'"]').css('background-position-y', y);
     }
@@ -471,12 +471,12 @@ air.notify = function(data){
     for(var k in vs) {
       if( k != '0' ) {
         var y = -15;
-        if(!vs[k]['ALIENS']) {
+        if(!vs[k]['ENLIGHTENED']) {
           y = !vs[k]['RESISTANCE'] ? -60 : -30;
         } else if(!vs[k]['RESISTANCE']) {
           y = 0;
         } else {
-          y = -30 + Math.round(30*vs[k]['ALIENS']/(vs[k]['ALIENS'] + vs[k]['RESISTANCE']));
+          y = -30 + Math.round(30*vs[k]['ENLIGHTENED']/(vs[k]['ENLIGHTENED'] + vs[k]['RESISTANCE']));
         }
         $('#mylevels a[lv="'+k+'"]').css('background-position-y', y).data('vs', y);
       }

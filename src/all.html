@@ -101,7 +101,7 @@ li {
   margin-right: 8px;
 }
 
-.iALIENS .name {
+.iENLIGHTENED .name {
   color: rgb(0, 53, 0);
 }
 
@@ -322,12 +322,12 @@ function process( pack ) {
   for(var k in vs) {
     if( k != '0' ) {
       var n = -15;
-      if(!vs[k]['ALIENS']) {
+      if(!vs[k]['ENLIGHTENED']) {
         n = !vs[k]['RESISTANCE'] ? -60 : -30;
       } else if(!vs[k]['RESISTANCE']) {
         n = 0;
       } else {
-        n = -30 + Math.round(30*vs[k]['ALIENS']/(vs[k]['ALIENS'] + vs[k]['RESISTANCE']));
+        n = -30 + Math.round(30*vs[k]['ENLIGHTENED']/(vs[k]['ENLIGHTENED'] + vs[k]['RESISTANCE']));
       }
       var lob = _ob('l'+k+'');
       if(lob) lob.style.backgroundPositionY = n +'px';
