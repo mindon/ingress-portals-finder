@@ -1,7 +1,7 @@
 var ck = document.cookie.match(/(^|;)\s*csrftoken=([^\s;]+)/i)
   , token = ck && ck[2] || ''
-  , api = "//www.ingress.com/rpc/dashboard.getThinnedEntitiesV2"
-  , qk = '013212223212'
+  , api = "//www.ingress.com/rpc/dashboard.getThinnedEntitiesV3"
+  , qk = '0_2_6'
   , param = {
     "zoom" : 0,
     "boundsParamsList" : [ {
@@ -12,7 +12,7 @@ var ck = document.cookie.match(/(^|;)\s*csrftoken=([^\s;]+)/i)
       "maxLngE6": 115340553,
       "qk": qk
     } ],
-    "method": "dashboard.getThinnedEntitiesV2"
+    "method": "dashboard.getThinnedEntitiesV3"
   };
 
 var port = chrome.extension.connect({name: "ingress-air"})
