@@ -8,7 +8,12 @@ News
 ----------------
 Learning android development, first learning app [DaSign](https://play.google.com/store/apps/details?id=com.mindon.idea.dasign)
 
-The next app will be the one you are expecting :-p
+
+[!MPORTANT] Within 2 weeks, NianticLabs updates its API from V2 to V4, the extension NOT working any more.
+Thanks for your supports & concern. Maybe let's call it the end of IPF :-(
+
+The android app plan is also aborted due to the same reason.
+
 
 
 Notice
