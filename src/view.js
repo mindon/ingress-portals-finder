@@ -399,8 +399,8 @@ air.notify = function(data){
         var result = {
 		  guid: v[0]
 		 ,time: v[1]
-         ,name: d.portalV4 && d.portalV4.descriptiveText ? d.portalV4.descriptiveText.TITLE || 'No Name' : 'No Name'
-         ,addr: d.portalV4 && d.portalV4.descriptiveText ? d.portalV4.descriptiveText.ADDRESS || '-' : '-'
+         ,name: d.portalV2 && d.portalV2.descriptiveText ? d.portalV2.descriptiveText.TITLE || 'No Name' : 'No Name'
+         ,addr: d.portalV2 && d.portalV2.descriptiveText ? d.portalV2.descriptiveText.ADDRESS || '-' : '-'
          ,lngE6: d.locationE6.lngE6
          ,latE6: d.locationE6.latE6
          ,lng: d.locationE6.lngE6.toString().replace(dE6, vE6)
