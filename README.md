@@ -8,7 +8,9 @@ News
 ----------------
 Learning android development, first learning app [DaSign](https://play.google.com/store/apps/details?id=com.mindon.idea.dasign)
 
-The next app will be the one you are expecting :-p
+[!IMPORTANT] update for API v4
+
+Thanks for donations from all, now total is $27.
 
 
 Notice
@@ -20,6 +22,8 @@ Other builds of crx out there by someone else, they won't get updates success fr
 
 Updates
 --------------------
+v1.4.0 Update for API v4
+
 v1.3.17 Fix englighted problem.
 
 v1.3.16 Fix undefined pageAction bug in chrome 29+

@@ -9,7 +9,7 @@ Ingress Portals Finder  - Mindon.IDEA
 
     <style type="text/css">
 @font-face {
-    font-family: coda_regular;
+  font-family: coda_regular;
   src: url(fonts/coda_regular.ttf);
 }
 html, body {
@@ -76,7 +76,7 @@ input {
   position:relative;
 }
 
-#mymin, #mymax, #mykey {
+#mymin, #mymax, #mykey, #myzoom {
   background-color:#333;
   color: #6699ff;
 }
@@ -85,9 +85,10 @@ a {
   color: #3399ee;
 }
 
-#mymin, #mymax {
+#mymin, #mymax, #myzoom {
   height: 2em;
   border-radius: 4px;
+  font-size: 10pt;
 }
 
 #mykey {
@@ -154,6 +155,7 @@ label.neutral {
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  margin-left: 16px;
 }
 
 #mysubmit:hover {
@@ -440,7 +442,7 @@ h1 {
 <a id="mindon" href="http://mindon.github.com" target="_blank">Mindon.IDEA</a>
 <div id="myair">
   <ul>
-<li><label class="caption"><a id="places" title="Get from Google Maps">[..]</a> Area </label><input type="text" id="mymin" value="22.461721,113.858767" /> ~ <input type="text" id="mymax" value="22.569553,114.064761" /> <input type="button" value=" Query " id="mysubmit" /></li>
+<li><label class="caption"><a id="places" title="Get from Google Maps">[..]</a> Area </label><input type="text" id="mymin" value="22.446036,114.053581" />-<input type="text" id="mymax" value="22.452778,114.066455" /><input id="myzoom" style="background:transpant;border-width:0;" value='16' maxlength="3" size="3" title="map zoom level" /><div style="display:inline;overflow:hidden;position:relative;height:2em;margin-right:0.2em"><input type="checkbox" style="position:absolute;top:-4px" id="mykeep" checked="true" title="Keep all query results" /><input type="checkbox" style="position:absolute;top:1em;margin-top:-1px;" id="myclear" title="Clear /intel page when query" /></div><input type="button" value=" Query " id="mysubmit" /></li>
 <li><label class="caption">Keyword: </label><input type="text" id="mykey" value="" title="Inpute keywords separated by ," placeholder="City: Shenzhen, Hong Kong, ..." /><div id="myteam"><input type="checkbox" checked="checked" id="enlightened"><label for="enlightened" class="enlightened">Enlightened</label>  <input type="checkbox" checked="checked" id="resistance"><label for="resistance" class="resistance">Resistance</label> <input type="checkbox" checked="checked" id="neutral"><label for="neutral" class="neutral">Neutral</label></div></li>
 <li style="margin:0"><div class="total"> = <span id="mycurr">0</span><span style="color:#999"> / </span><span id="mytotal">0</span></div><div id="mylevels" title="CTRL/Command + Click to select Multi-Levels"><label class="caption"><span id="allev" title="Select All">[a]</span> Level: </label><a lv="0">0<u>0</u></a><a lv="1">1<u>0</u></a><a lv="2">2<u>0</u></a><a lv="3">3<u>0</u></a><a lv="4">4<u>0</u></a><a lv="5">5<u>0</u></a><a lv="6">6<u>0</u></a><a lv="7">7<u>0</u></a><a lv="8">8<u>0</u></a></div></li>
   </ul>
@@ -448,7 +450,7 @@ h1 {
 <div id="mystage">
 <p align="center">Fill the bounds of your area, and click "Query"!<br /><br />Enjoy :-) <a id="mydonate">DONATE</a></p>
 </div>
-<div id="mapkey" style="display:none"><h3 style="color:red">Google Map API 25k free Daily Quota Runs out</h3>Use My Google Map API Key<br /><input type="text" id="mymapkey" size="20" placeholder="Your Google Map API Key"/><input type="button" value="Retry" id="mytry" /></div>
+<div id="mapkey" style="display:none"><input type="text" id="mymapkey" size="20" placeholder="Your Google Map API Key"/><input type="button" value="Retry" id="mytry" /></div>
 
 <div align="center" style="clear:both;"><p style="width:420px;line-height:48px"><img src="48.png" align="left">by <b>Mindon</b> from <a href="http://mindon.github.com" target="_blank">Mindon.IDEA</a>. &nbsp; <span style="opacity:0.3">Thanks <a href="http://http://blog.shawtim.com/" target="_blank" title="for his Ingress: HK Portal List Extension">ShawTim</a></span></p></div>
 <textarea id="tmpl_view" style="display:none">

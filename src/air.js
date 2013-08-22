@@ -63,7 +63,7 @@ chrome.extension.onConnect.addListener(function(port) {
 });
 
 var qn = 0;
-function query(bounds) {
+function query(bounds, mapZoom, cmd) {
   if( gtid )
     clearTimeout(gtid);
 
@@ -76,11 +76,11 @@ function query(bounds) {
     }
 
     return setTimeout(function(){
-      query(bounds);
+      query(bounds, mapZoom, cmd);
     }, 100);
   }
-  gbounds = bounds;
-  gport.postMessage(bounds, '*');
+  gbounds = bounds + (mapZoom ? ',' +mapZoom: '');
+  gport.postMessage(gbounds + (cmd ? '#' +cmd : ''), '*');
 }
 
 var _BUFFER_EXPIRED = 5 * 50 * 1000;

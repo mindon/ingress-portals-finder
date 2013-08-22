@@ -1,4 +1,4 @@
-var ready, dr, portals, levels, nzlevel, teams, stat, tid, tn = 0;
+var ready, dr, portals=[], levels={}, nzlevel, teams={}, stat, tid, tn = 0;
 var EnergyMax = [0, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 6000 ];
 var air = chrome.extension.getBackgroundPage();
 var mapWin, center = [22.528176, 113.928448];
@@ -40,6 +40,7 @@ function updateBounds( data ) {
   }
   if( data.zoom ) {
     localStorage['zoom'] = data.zoom;
+    $('#myzoom').val(parseInt(data.zoom) || 12);
   }
   d = data.bounds;
   if( d && d.length == 2 ) {
@@ -78,8 +79,6 @@ function view( html, simple ) {
         $(this).html('');
       }
     });
-
-    $('#mysubmit').get(0).disabled = false;
 
     $('.LevelBar:first').css('border-top-width', '2px');
 
@@ -143,12 +142,14 @@ function view( html, simple ) {
   }
 }
 
-var INED = '<p style="color:#fc6;font-size:10pt">If already in, try "Query" again or following steps: <br/>1) close this window; &nbsp; &nbsp; &nbsp;<br/>2) reload the /intel page;<br/>3) re-open this window. &nbsp;</ol></p><p style="color:red">Niantic updated API to V3, Not working now :(</p>'
+var INED = '<p style="color:#fc6;font-size:10pt">If already in, try "Query" again or following steps: <br/>1) close ipf window &amp; reload /intel page;<br/>2) re-open ipf window. &nbsp;</ol></p><p style="color:red">Niantic updated API to V4, Not working now :(</p>'
 , NOTIFYS = {
   'FAILED': 'Query Failed - Sign-In Required!' + INED
- ,'INVALID': 'Invalid Query!'
+ ,'INVALID': 'Invalid Query! Try query in another area.'
  ,'QUERYING': 'Querying Portals, It Takes Time ...<div class="spinning"><div class="ball"></div><div class="ball1"></div></div>'
  ,'NOAUTH': 'Sign-In Required!' + INED
+ ,'MASS': 'Your query area &amp; zoom level requires more than 8 requests to the server, try a smaller area.'
+ ,'NONE': 'No portals found in query area! Try query in another area.'
  ,'ERROR': 'Query Error! [ <a id="myreload">Reload</a> ]'
  ,'UNKNOWN': 'Unknown Error! [ <a id="myreload">Reload</a> ]'
 };
@@ -286,7 +287,6 @@ function filter( results ) {
     }
 
     num[v] = n;
-
     stat[v] = st;
 
   });
@@ -314,6 +314,9 @@ function filter( results ) {
   return r;
 }
 
+var deleted = {}, results = [];
+var dupc = {}; //avoid duplicate
+
 function render() {
   if( window.gdata == 'QUERYING' || !window.gdata ) {
     return false;
@@ -330,7 +333,7 @@ function render() {
   if( r && r.length > 0 ) {
     dr.postMessage({result: {list: r}}, '*');
   } else {
-    view( '<div class="notify">No Portals Matched This Level</div>', true );
+    view( '<div class="notify">No Portals Matched This Level, Check other levels or query in another area</div>', true );
   }
 }
 
@@ -340,19 +343,40 @@ air.notify = function(data){
   window.gdata = data;
 
   air.expire();
-
+  
   tn = 0;
   tid && clearTimeout(tid);
   if( !data || typeof data == 'string' ) {
-    fail(data);
+    if( /^GOT:\d+\/\d+$/.test(data)) {
+      var m = data.match(/(\d+)\/(\d+)/);
+      if( m[1] < m[2] ) {
+        $('#mysubmit').val(' ' +m[1] +' / ' + m[2] +'.. ');
+      } else {
+        $('#mysubmit').val(' Query ');
+        $('#mysubmit').get(0).disabled = false;
+      }
+    } else if( /^MASS:\d+\/\d+$/.test(data)) {
+      fail('MASS');
+      $('#mysubmit').get(0).disabled = false;
 
+    } else {
+      if( data == "QUERYING" ) {
+        if( $('#mykeep:checked').length == 0 ) { // reset
+          deleted = {};
+          results = []
+          air.portals = portals = [];
+          levels = {};
+          teams = {};
+          dupc = {};
+        }
+      }
+      fail(data);
+      $('#mysubmit').get(0).disabled = false;
+    }
   } else {
     sortKey = '';
     $('#mylevels a[lv] u').html( 0 ).removeData('num');
 
-    // deleted
-    var deleted = {};
-    
     if( data.deletedGameEntityGuids ) {
       data.deletedGameEntityGuids.forEach(function(v){
         deleted[v] = true;
@@ -361,20 +385,11 @@ air.notify = function(data){
 
     // entities
     if( data.gameEntities ) {
-      var results = []
-        , dE6=/^(-?\d+)$/
-        , n = 0;
-
-      // reset global data
-      air.portals = portals = [];
-      levels = {};
-      teams = {};
-
-      var dupc = {}; //avoid duplicate
+        var dE6=/^(-?\d+)$/
+        , n = results.length;
 
       data.gameEntities.forEach(function(v) {
         var d = v[2];
-
         // skip
         if(!d || deleted[v[0]] || !d.resonatorArray || dupc[v[0]])
           return;
@@ -384,8 +399,8 @@ air.notify = function(data){
         var result = {
 		  guid: v[0]
 		 ,time: v[1]
-         ,name: d.portalV2 && d.portalV2.descriptiveText ? d.portalV2.descriptiveText.TITLE || 'No Name' : 'No Name'
-         ,addr: d.portalV2 && d.portalV2.descriptiveText ? d.portalV2.descriptiveText.ADDRESS || '-' : '-'
+         ,name: d.portalV4 && d.portalV4.descriptiveText ? d.portalV4.descriptiveText.TITLE || 'No Name' : 'No Name'
+         ,addr: d.portalV4 && d.portalV4.descriptiveText ? d.portalV4.descriptiveText.ADDRESS || '-' : '-'
          ,lngE6: d.locationE6.lngE6
          ,latE6: d.locationE6.latE6
          ,lng: d.locationE6.lngE6.toString().replace(dE6, vE6)
@@ -436,6 +451,7 @@ air.notify = function(data){
             });
           }
         }
+
         results[n] = result;
         if( !levels[result.level] ) {
           levels[ result.level ] = [n];
@@ -455,6 +471,10 @@ air.notify = function(data){
 
     portals = results;
     air.portals = portals;
+
+    if( results.length == 0 && data.fin ) { // no data
+      fail('NONE');
+    }
 
     var total = 0;
     nzlevel = -1;
@@ -550,17 +570,24 @@ $(document).ready(function(){
       $('#myrange').show();
       return false;
     }
+    var zv = localStorage['zoom'];
+    if(/^\s*\d+\s*$/.test($('#myzoom').val())) {
+      zv = $('#myzoom').val().replace(/^\s+|\s+$/g, '');
+      localStorage['zoom'] = zv;
+    }
 
     this.disabled = true;
-    if( air.gbounds == bounds && air.gpack && typeof air.gpack !='string' ) {
+    if( air.gbounds == (bounds +(zv ? ','+zv : '')) && air.gpack && typeof air.gpack !='string' ) {
       air.notify( air.gpack );
     } else {
       fail('QUERYING');
       air.qn = 0;
       air.gpack = null;
-      air.query( bounds );
+      localStorage['advance'] =  [$('#mykeep:checked').length > 0 ? 1: 0, $('#myclear:checked').length > 0 ? 1: 0].join(',');
+      air.query( bounds, zv, $('#myclear:checked').length > 0 ? 'CLEAR': '' );
     }
     localStorage['bounds'] = bounds;
+
   });
 
   var v = localStorage['bounds'];
@@ -576,10 +603,17 @@ $(document).ready(function(){
     $('#mykey').val( v );
   }
 
+  v = localStorage['advance'];
+  if( v ) {
+    v = v.split(',');
+    $('#mykeep').get(0).checked = v[0] == "1";
+    $('#myclear').get(0).checked = v[1] == "1";
+  }
+
   // map
   $('#mapfr').attr('src', 'map.html');
 
-  $('#places,#mymin,#mymax').click(function(event) {
+  $('#places,#mymin,#mymax,#myzoom').click(function(event) {
     if($('#mymap:visible').length) {
       return $('#mymap:visible').hide();
     }
@@ -592,7 +626,7 @@ $(document).ready(function(){
       if( dxp.test($('#mymin').val()) && dxp.test($('#mymax').val()) ) {
         var sw = $('#mymin').val().split(',')
            , ne = $('#mymax').val().split(',');
-
+       
         center = [ (parseFloat(sw[0]) +(parseFloat(ne[0])-parseFloat(sw[0]))/2).toFixed(6)
           , (parseFloat(sw[1]) +(parseFloat(ne[1])-parseFloat(sw[1]))/2).toFixed(6)];
 
@@ -600,6 +634,7 @@ $(document).ready(function(){
         var d = localStorage['center'].split(',');
         center = [parseFloat(d[0]).toFixed(6), parseFloat(d[1]).toFixed(6)];
       }
+
 
       mapWin.postMessage({x: center[0], y: center[1], zoom: parseInt(localStorage['zoom']) || 12 }, '*');
 
