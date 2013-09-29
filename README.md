@@ -10,7 +10,11 @@ Learning android development, first learning app [DaSign](https://play.google.co
 
 [!IMPORTANT] update for API v4
 
-Thanks for donations from all, now total is $40.
+Thanks for donations from all, now total is $52!
+
+God! wish i have time to make updates …
+
+Thanks for your guys' donations. No more now, cause the project is in a paused status.
 
 
 Notice
