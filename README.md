@@ -6,6 +6,11 @@ a chrome extension for the Game - Ingress
 
 News
 ----------------
+Project aborted
+
+Donation 100 XRP: **r4JA8ag8X3UUSHvjj14XKzLarBVWcwpufz**
+
+
 Learning android development, first learning app [DaSign](https://play.google.com/store/apps/details?id=com.mindon.idea.dasign)
 
 [!IMPORTANT] update for API v4
