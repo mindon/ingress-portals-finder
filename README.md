@@ -1,7 +1,7 @@
 ingress-portals-finder
 ======================
 
-a chrome extension for the Game - Ingress
+A Google Chrome extension for the Game **Ingress**
 
 
 News
@@ -15,16 +15,16 @@ Learning android development, first learning app [DaSign](https://play.google.co
 
 [!IMPORTANT] update for API v4
 
-Thanks for donations from all, now total is $52!
+Thanks for donations from all, new total is $52!
 
-God! wish i have time to make updates …
+God! I wish I had some time to make updates…
 
 Thanks for your guys' donations. No more now, cause the project is in a paused status.
 
 
 Notice
 ----------------
-Please use the crx file in the build folder. This could get updates if there's a new version. ( By clicking the "Update extensions now" button in **chrome://extensions/**, you could get the new update immediately )
+Please use the crx file in the build folder. This could get updates if there's a new version. (By clicking the "Update extensions now" button in **chrome://extensions/**, you could get the new update immediately)
 
 Other builds of crx out there by someone else, they won't get updates success from here.
 
@@ -33,7 +33,7 @@ Updates
 --------------------
 v1.4.0 Update for API v4
 
-v1.3.17 Fix englighted problem.
+v1.3.17 Fix enlightened problem.
 
 v1.3.16 Fix undefined pageAction bug in chrome 29+
 
