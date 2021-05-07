@@ -1,6 +1,6 @@
 var ck = document.cookie.match(/(^|;)\s*csrftoken=([^\s;]+)/i)
   , token = ck && ck[2] || ''
-  , api = "//www.ingress.com/rpc/dashboard.getThinnedEntitiesV4"
+  , api = "//intel.ingress.com/r/getPlexts"
   , oneReqNum = 18;
 
 var port = chrome.extension.connect({name: "ingress-air"})
@@ -87,10 +87,11 @@ function doreq(bl) {
     }
   };
 
-  var param = {
-    "boundsParamsList" : bl,
-    "method": "dashboard.getThinnedEntitiesV4"
-  };
+  // var param = {
+  //   "boundsParamsList" : bl,
+  //   "method": "dashboard.getThinnedEntitiesV4"
+  // };
+  var param = bl;
   xhr.open("POST", api, true);
   xhr.withCredentials = true;
   xhr.setRequestHeader("X-CSRFToken", token);
@@ -122,7 +123,18 @@ function qparams(mapZoom, bounds) {
     if(d.length > 0) {
       b.push(d);
     }
-    return b;
+    //return b;
+    return {
+      ascendingTimestampOrder: true
+          ,minTimestampMs: new Date().getTime()
+          ,maxTimestampMs: -1
+          ,'tab': 'all'
+          , minLatE6: Math.min(d[0].minLatE6, d[d.length-1].minLatE6)
+          , minLngE6: Math.min(d[0].minLngE6, d[d.length-1].minminLngE6LatE6)
+          , maxLatE6: Math.max(d[0].maxLatE6, d[d.length-1].maxLatE6)
+          , maxLngE6: Math.max(d[0].maxLngE6, d[d.length-1].maxLngE6)
+          , v: ''
+    };
 }
 
 function rangs(mapZoom, bounds) {
@@ -158,18 +170,20 @@ function ingr(bounds) {
   var mapZoom = d[4] ? parseInt(d[4],10) || 12: 12;
 
   var req = qparams(mapZoom, d);
-  if( req.length > 8 ) {
-    port.postMessage('MASS:' + req.length);
+  // if( req.length > 8 ) {
+  //   port.postMessage('MASS:' + req.length);
 
-  } else if( req.length > 0 ) {
-    port.postMessage('QUERYING');
-    reqnum = reqtotal = req.length;
-    req.forEach(function(v){
-      doreq(v);
-    });
-  } else {
-    reqnum = reqtotal = 0;
-    port.postMessage('INVALID');
-  }
+  reqnum = reqtotal = 1;
+  doreq(req);
+  // } else if( req.length > 0 ) {
+  //   port.postMessage('QUERYING');
+  //   reqnum = reqtotal = req.length;
+  //   req.forEach(function(v){
+  //     doreq(v);
+  //   });
+  // } else {
+  //   reqnum = reqtotal = 0;
+  //   port.postMessage('INVALID');
+  // }
 };
 

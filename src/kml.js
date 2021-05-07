@@ -133,7 +133,7 @@ function kml(img, level) {
     });
   });
 
-  return 'data:application/vnd.google-earth.kml+xml;base64,'+Base64.encode('<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://earth.google.com/kml/2.2"><Document><name>Ingress Portals Finder</name><description>"Ingress Portals Finder" Chrome Extension, Developed by Mindon from http://mindon.github.com/</description><open>1</open>' +styles + kmlstr +'</Document></kml>', true);
+  return 'data:application/vnd.google-earth.kml+xml;base64,'+Base64.encode('<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://earth.google.com/kml/2.2"><Document><name>Ingress Portals Finder</name><description>"Ingress Portals Finder" Chrome Extension, Developed by Mindon from https://mindon.dev/</description><open>1</open>' +styles + kmlstr +'</Document></kml>', true);
 }
 
 function csv(img, level) {

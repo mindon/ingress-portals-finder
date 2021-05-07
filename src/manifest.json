@@ -1,7 +1,7 @@
 {
   "name": "Ingress Portals Finder"
  ,"description": "Find Local Portals of The Game - Ingress"
- ,"version": "1.4.1"
+ ,"version": "1.4.2"
  ,"browser_action": {
     "default_title": "Find Ingress Portals Around",
     "default_icon": "20.png"
@@ -12,7 +12,7 @@
   }
  ,"content_scripts": [
     {
-      "matches": ["http://www.ingress.com/*"]
+      "matches": ["https://www.ingress.com/*", "https://intel.ingress.com/*"]
      ,"js": ["ingr.js"]
 	 ,"run_at": "document_start"
     }
@@ -21,9 +21,10 @@
      "pages": ["tmpl.html", "map.html", "all.html"]
   }
  ,"permissions": [
-    "http://www.ingress.com/*", "https://www.ingress.com/*"
+    "https://www.ingress.com/*", "https://intel.ingress.com/*", "https://maps.googleapis.com/maps/api/js"
  ]
- ,"homepage_url": "http://mindon.github.com/"
+ ,"content_security_policy": "object-src 'self'; script-src-elem 'self'; script-src 'self' https://maps.googleapis.com;"
+ ,"homepage_url": "https://mindon.dev/"
  ,"manifest_version": 2
  ,"update_url": "https://raw.github.com/mindon/ingress-portals-finder/master/build/ingr-updates.xml"
 }

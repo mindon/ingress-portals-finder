@@ -142,7 +142,7 @@ function view( html, simple ) {
   }
 }
 
-var INED = '<p style="color:#fc6;font-size:10pt">If already in, try "Query" again or following steps: <br/>1) close ipf window &amp; reload /intel page;<br/>2) re-open ipf window. &nbsp;</ol></p><p style="color:red">Niantic updated API to V4, Not working now :(</p>'
+var INED = '<p style="color:#fc6;font-size:10pt">If already in, try "Query" again or following steps: <br/>1) close ipf window &amp; reload /intel page;<br/>2) re-open ipf window. &nbsp;</ol></p><p style="color:red">With Niantic\'s updated APIs, ipf IS NOT working any more :(</p>'
 , NOTIFYS = {
   'FAILED': 'Query Failed - Sign-In Required!' + INED
  ,'INVALID': 'Invalid Query! Try query in another area.'

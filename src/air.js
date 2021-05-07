@@ -1,4 +1,4 @@
-var ingrUrl = /^http[s]?:\/\/(www\.)?ingress\.com/i; 
+var ingrUrl = /^http[s]?:\/\/(www\.|intel\.)?ingress\.com/i; 
 // Called when the url of a tab changes.
 function checkForValidUrl(tabId, changeInfo, tab) {
     if( ingrUrl.test(tab.url) ) {
